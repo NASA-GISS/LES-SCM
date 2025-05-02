@@ -1,0 +1,28 @@
+title: NASA-GISS LES-SCM Overview
+author: GISS Cloud Group
+logo: notebooks/images/arm_logo.png
+execute:
+  execute_notebooks: "off"
+parse:
+  myst_enable_extensions:
+    - html_image
+    - amsmath
+    - colon_fence
+    - deflist
+    - dollarmath
+    - html_admonition
+    - html_image
+    - replacements
+    - smartquotes
+    - substitution
+html:
+  use_repository_button: true
+  comments:
+    hypothesis: true
+repository:
+  url: https://github.com/NASA-GISS/LES-SCM  # Online location of your book
+  path_to_book: 
+  branch: main  # Which branch of the repository should be used when creating links (optional)
+launch_buttons:
+  jupyterhub_url: https://jupyterhub.arm.gov
+  notebook_interface: jupyterlab
