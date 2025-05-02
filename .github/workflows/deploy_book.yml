@@ -40,5 +40,5 @@ jobs:
       
       if: github.ref == 'refs/heads/main'
       with:
-        github_token: ${{ secrets.TOKEN }}
+        github_token: ${{ secrets.TOKENS }}
         publish_dir: _build/html
