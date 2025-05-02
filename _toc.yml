@@ -1,0 +1,6 @@
+format: jb-book
+root: README
+parts:
+- caption: Project Information
+  chapters:
+    - glob: notebooks/cases_list.ipynb
