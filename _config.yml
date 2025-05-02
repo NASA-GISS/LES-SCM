@@ -1,6 +1,7 @@
 title: NASA-GISS LES-SCM Overview
 author: GISS Cloud Group
 logo: 123025312.png
+markdown: kramdown
 execute:
   execute_notebooks: "off"
 parse:
