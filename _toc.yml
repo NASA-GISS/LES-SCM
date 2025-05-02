@@ -3,4 +3,4 @@ root: README
 parts:
 - caption: Project Information
   chapters:
-    - glob notebooks/cases_list.ipynb
+    - glob: notebooks/cases_list.ipynb
