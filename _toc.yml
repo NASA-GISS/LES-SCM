@@ -4,3 +4,5 @@ parts:
 - caption: Project Information
   chapters:
     - file: notebooks/cases_list.ipynb
+      sections:
+        - file: notebooks/case_plotting_20200313.ipynb
