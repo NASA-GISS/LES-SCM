@@ -5,6 +5,6 @@ parts:
   chapters:
     - file: notebooks/cases_list.ipynb
       sections:
-        - file: case_descripitions.md
+        - file: case_descripitions
 - caption: Plotting and Analysis
         - file: notebooks/case_plotting_20200313.ipynb
