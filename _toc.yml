@@ -7,4 +7,5 @@ parts:
       sections:
         - file: case_descripitions
 - caption: Plotting and Analysis
+  chapters:
         - file: notebooks/case_plotting_20200313.ipynb
