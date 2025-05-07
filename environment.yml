@@ -1,0 +1,21 @@
+name: comble-mip-dev
+channels:
+  - conda-forge
+  - defaults
+  - pyviz
+dependencies:
+  - python=3.9
+  - arm_pyart
+  - matplotlib
+  - jupyterlab
+  - cartopy
+  - numpy
+  - dask
+  - distributed
+  - xarray
+  - pandas
+  - fiona
+  - pip
+  - pip:
+    - openpyxl==3.1.0
+    - -r doc-requirements.txt
