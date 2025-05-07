@@ -6,6 +6,6 @@ parts:
     - file: notebooks/cases_list.ipynb
       sections:
         - file: case_descripitions
-- caption: Plotting and Analysis
+- caption: Observation-constrained LES-SCM
   chapters:
         - file: notebooks/case_plotting_20200313.ipynb
