@@ -5,7 +5,8 @@ parts:
   chapters:
     - file: notebooks/cases_list.ipynb
       sections:
-        - file: case_descripitions
+        - file: notebooks/case_descr_20200313.ipynb
+        
 - caption: Observation-constrained LES-SCM
   chapters:
         - file: notebooks/case_plotting_20200313.ipynb
