@@ -7,7 +7,6 @@ parts:
     - file: case_description
       sections:
         - file: notebooks/case_descr_20200313.ipynb
-        
 - caption: Simulations
   chapters:
     - file: obs_constrained_les_scm
