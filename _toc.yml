@@ -9,5 +9,7 @@ parts:
         - file: notebooks/case_descr_20200313.ipynb
         
 - caption: Observation-constrained LES-SCM
-  sections:
+  chapters:
+    - file: obs_constrained_les_scm
+      sections:
         - file: notebooks/case_plotting_20200313.ipynb
