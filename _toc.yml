@@ -4,6 +4,7 @@ parts:
 - caption: Project Information
   chapters:
     - file: notebooks/cases_list.ipynb
+    - file: case_description
       sections:
         - file: notebooks/case_descr_20200313.ipynb
         
