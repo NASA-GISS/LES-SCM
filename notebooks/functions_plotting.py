@@ -36,7 +36,7 @@ def sat_pres(x):
     ## Bolton (1980), return in hPa
     return 6.112*np.exp(17.67*x/(243.5 + x)) 
     
-def load_ceres(case='20200313',t_filter = 1.,PATH='../../data_files/'):
+def load_ceres(case='20200313',t_filter = 1.,PATH='../data_files/'):
     
     ## load coincident MAC-LWP retrievals (Elsaesser et al., 2017)
     ## __input__
@@ -67,7 +67,7 @@ def load_ceres(case='20200313',t_filter = 1.,PATH='../../data_files/'):
     return data
 
 
-def load_calipso(case='20200313',t_filter = 1.,PATH='../../data_files/'):
+def load_calipso(case='20200313',t_filter = 1.,PATH='../data_files/'):
     
     ## load coincident MAC-LWP retrievals (Elsaesser et al., 2017)
     ## __input__
@@ -106,7 +106,7 @@ def load_calipso(case='20200313',t_filter = 1.,PATH='../../data_files/'):
     data['class'] = data['sat']
     return data
 
-def load_iwpgong(case='20200313',t_filter = 1.,sza_filter = 80.,PATH='../../data_files/'):
+def load_iwpgong(case='20200313',t_filter = 1.,sza_filter = 80.,PATH='../data_files/'):
     
     ## load coincident MAC-LWP retrievals (Elsaesser et al., 2017)
     ## __input__
@@ -133,7 +133,7 @@ def load_iwpgong(case='20200313',t_filter = 1.,sza_filter = 80.,PATH='../../data
     data['class'] = data['sat']
     return data
 
-def load_sentinel(case='20200313',t_filter = 1.,sza_filter = 80.,PATH='../../data_files/'):
+def load_sentinel(case='20200313',t_filter = 1.,sza_filter = 80.,PATH='../data_files/'):
     
     ## load coincident MAC-LWP retrievals (Elsaesser et al., 2017)
     ## __input__
@@ -166,7 +166,7 @@ def load_sentinel(case='20200313',t_filter = 1.,sza_filter = 80.,PATH='../../dat
     data['class'] = data['sat']
     return data
 
-def load_viirs(case='20200313',t_filter = 1.,sza_filter = 80.,PATH='../../data_files/'):
+def load_viirs(case='20200313',t_filter = 1.,sza_filter = 80.,PATH='../data_files/'):
     
     ## load coincident MAC-LWP retrievals (Elsaesser et al., 2017)
     ## __input__
@@ -206,7 +206,7 @@ def load_viirs(case='20200313',t_filter = 1.,sza_filter = 80.,PATH='../../data_f
     data['class'] = data['sat']
     return data
 
-def load_modis(case='20200313',t_filter = 1.,sza_filter = 80.,PATH='../../data_files/'):
+def load_modis(case='20200313',t_filter = 1.,sza_filter = 80.,PATH='../data_files/'):
     
     ## load coincident MAC-LWP retrievals (Elsaesser et al., 2017)
     ## __input__
@@ -242,7 +242,7 @@ def load_modis(case='20200313',t_filter = 1.,sza_filter = 80.,PATH='../../data_f
     data['class'] = data['sat']
     return data
 
-def load_maclwp(case='20200313',t_filter = 1.,PATH='../../data_files/'):
+def load_maclwp(case='20200313',t_filter = 1.,PATH='../data_files/'):
     
     ## load coincident MAC-LWP retrievals (Elsaesser et al., 2017)
     ## __input__
@@ -274,7 +274,7 @@ def load_maclwp(case='20200313',t_filter = 1.,PATH='../../data_files/'):
     data_mac['class'] = data_mac['sat']
     return data_mac
 
-def load_kazrkollias(case='20200313',t_filter = 1.,PATH='../../data_files/',aux_dat=pd.DataFrame()):
+def load_kazrkollias(case='20200313',t_filter = 1.,PATH='../data_files/',aux_dat=pd.DataFrame()):
     
     ## load coincident MAC-LWP retrievals (Elsaesser et al., 2017)
     ## __input__
@@ -312,7 +312,7 @@ def load_kazrkollias(case='20200313',t_filter = 1.,PATH='../../data_files/',aux_
     
     return p_df
 
-def load_kazrclough(case='20200313',t_filter = 1.,PATH='../../data_files/'):
+def load_kazrclough(case='20200313',t_filter = 1.,PATH='../data_files/'):
     
     ## load coincident MAC-LWP retrievals (Elsaesser et al., 2017)
     ## __input__
@@ -335,7 +335,7 @@ def load_kazrclough(case='20200313',t_filter = 1.,PATH='../../data_files/'):
     return p_df
 
 
-def load_radflux(case='20200313',t_filter = 1.,PATH='../../data_files/'):
+def load_radflux(case='20200313',t_filter = 1.,PATH='../data_files/'):
     
     ## load coincident MAC-LWP retrievals (Elsaesser et al., 2017)
     ## __input__
@@ -359,7 +359,7 @@ def load_radflux(case='20200313',t_filter = 1.,PATH='../../data_files/'):
     
     return p_df
 
-def load_aeri(case='20200313',t_filter = 1.,PATH='../../data_files/'):
+def load_aeri(case='20200313',t_filter = 1.,PATH='../data_files/'):
     
     if case == '20200313':
         file = 'aeri_2020-03-13_dat.csv'
@@ -382,7 +382,7 @@ def load_aeri(case='20200313',t_filter = 1.,PATH='../../data_files/'):
     
     return data
 
-def load_carraflux(case='20200313',PATH='../../data_files/'):
+def load_carraflux(case='20200313',PATH='../data_files/'):
 
     ## load CARRA surface fluxes
     if case == '20200313':
@@ -401,7 +401,7 @@ def load_carraflux(case='20200313',PATH='../../data_files/'):
     
     return p_df
     
-def load_flux(case='20200313',t_filter = 1.,PATH='../../data_files/'):
+def load_flux(case='20200313',t_filter = 1.,PATH='../data_files/'):
     
     ## load ECOR and Bulk surface turbulent fluxes, obtained near Andenenes
     if case == '20200313':
@@ -434,7 +434,7 @@ def load_flux(case='20200313',t_filter = 1.,PATH='../../data_files/'):
     
     return pd.concat([p_df,p_df_2])
     
-def load_rs(case='20200313',t_filter = 1.,PATH='../../data_files/'):
+def load_rs(case='20200313',t_filter = 1.,PATH='../data_files/'):
     
     ## load radiosonde obs
     ## __input__
@@ -485,7 +485,7 @@ def load_rs(case='20200313',t_filter = 1.,PATH='../../data_files/'):
     return rs_col
 
 
-def load_era5(case='20200313',PATH='../../data_files/'):
+def load_era5(case='20200313',PATH='../data_files/'):
     
     ## load ERA5 data along trajectory
     ## __input__
@@ -780,7 +780,7 @@ def load_sims_2d_slow(path,var_vec_2d,t_shift = 0,keyword='',subfolder=''):
     return df_col2
     
 
-def load_sims(path,var_vec_1d,var_vec_2d,t_shift = 0,keyword='',make_gray = 0,drop_t0=True,diag_zi_ctt=False,diag_qltot=False,diag_qitot=False,QTHRES=1.0e-6,subfolder='',ignore='placeholder'):
+def load_sims(path,var_vec_1d,var_vec_2d,t_shift = 0,keyword='',make_gray = 0,drop_t0=True,diag_zi_ctt=False,diag_qltot=False,diag_qitot=False,QTHRES=1.0e-10,subfolder='',ignore='placeholder'):
     
     ## load ERA5 data along trajectory
     ## __input__
@@ -833,9 +833,12 @@ def load_sims(path,var_vec_1d,var_vec_2d,t_shift = 0,keyword='',make_gray = 0,dr
             label_items = [x for x in fn.parts + direc.parts if x not in direc.parts]
             #label_items = label_items[0:(len(label_items)-1)]
             group = "/".join(label_items)
+            sim_type = label_items[0]
+            config = label_items[1]
 
             #p_df = pd.DataFrame({"class": [group]* len(time), "time":time, "cwp": cwp, "rwp": rwp},index=time/3600)
             p_df = pd.DataFrame({"class": [group]* len(time), "time":time}, index=time/3600)
+            #p_df = pd.DataFrame({"class": [group]*len(time), "sim_type":sim_type,"config":config, "time":time}, index=time/3600)
             for vv in var_vec_1d:
                 if vv in ds.variables:
                     p_df[vv] = ds.variables[vv][t0:]
@@ -950,11 +953,12 @@ def load_sims(path,var_vec_1d,var_vec_2d,t_shift = 0,keyword='',make_gray = 0,dr
             print(cc)
             df_sub  = df_col.loc[df_col['class']==cc]
             df_sub2 = df_col2.loc[df_col2['class']==cc]
+            #print(df_sub2.columns)
             if 'ta' in df_col2.columns and 'theta' in df_col2.columns:
                 for tt in df_sub['time']:  
                     #zi_step = df_sub.loc[df_sub['time'] == tt,'zi']
                     ## diagnosing inversion height from theta profiles
-                    if(('qlc' in df_sub2.columns) & ('qic' in df_sub2.columns)):  
+                    if(('qlc' in df_sub2.columns) & ('qic' in df_sub2.columns)): 
                         theta_step = df_sub2.loc[df_sub2['time'] == tt,['zf','theta','qlc','qlr','qic','qis','qig','qv']]
                         theta_step['qic'] = theta_step['qic'].fillna(0)
                         theta_step['qis'] = theta_step['qis'].fillna(0)
@@ -968,7 +972,12 @@ def load_sims(path,var_vec_1d,var_vec_2d,t_shift = 0,keyword='',make_gray = 0,dr
                         theta_step['theta'] = theta_step['theta'] - lv/cp*(theta_step['qlc'] + theta_step['qlr']) - li/cp*(theta_step['qi'])
                         theta_step['qcond_tot'] = theta_step['qlc'] + theta_step['qlr'] + theta_step['qi']
                         theta_step['q_tot'] = theta_step['qlc'] + theta_step['qlr'] + theta_step['qi'] + theta_step['qv']
-                    elif(('qlc' in df_sub2.columns) & ('qlr' in df_sub2.columns)):                          
+                    elif(('qlc' in df_sub2.columns) & ('qics' in df_sub2.columns)): 
+                        theta_step = df_sub2.loc[df_sub2['time'] == tt,['zf','theta','qlc','qlr','qics','qicc','qipc','qips','qv']]
+                        theta_step['theta'] = theta_step['theta'] - lv/cp*(theta_step['qlc'] + theta_step['qlr']) - li/cp*(theta_step['qics'] + theta_step['qicc'] + theta_step['qips'] + theta_step['qipc'])
+                        theta_step['qcond_tot'] = theta_step['qlc'] + theta_step['qlr'] + theta_step['qics'] + theta_step['qicc'] + theta_step['qips'] + theta_step['qipc']
+                        theta_step['q_tot'] = theta_step['qlc'] + theta_step['qlr'] + theta_step['qics'] + theta_step['qicc'] + theta_step['qips'] + theta_step['qipc'] + theta_step['qv']
+                    elif(('qlc' in df_sub2.columns) & ('qlr' in df_sub2.columns)):          
                         theta_step = df_sub2.loc[df_sub2['time'] == tt,['zf','theta','qlc','qlr','qv']]
                         if theta_step['qlr'].isna().sum() == 0:
                             theta_step['theta'] = theta_step['theta'] - lv/cp*(theta_step['qlc'] + theta_step['qlr'])
@@ -1104,7 +1113,8 @@ def plot_1d(df_col,var_vec,**kwargs):
         plot_colors = kwargs.get('plot_colors')
         
     if 'plot_ls' not in kwargs:
-        plot_ls = ['-','-','-','-','-','-','-','-','-','-','-']
+        #plot_ls = ['-','-','-','-','-','-','-','-','-','-','-']
+        plot_ls = ['-','--','-.',':']
     else:
         plot_ls = kwargs.get('plot_ls')
     
@@ -1120,9 +1130,24 @@ def plot_1d(df_col,var_vec,**kwargs):
     counter = 0
     counter_symbol = 0
     counter_plot = 0
-        
+
+    ## collect all color and linetype items     
+    df_sim = df_col[df_col['class'].str.contains('/')]
+    ov_tab = pd.Series(df_sim['class'].unique()).str.split(pat='/')
+    col_vec = np.unique([x[1] for x in ov_tab])
+    lty_vec = np.unique([x[0] for x in ov_tab])
+    
     fig, axs = plt.subplots(len(var_vec),1,figsize=(5.5,1 + 2*len(var_vec)))
+    #for label, df in df_col.groupby('class'):
     for label, df in df_col.groupby('class'):
+        if('/' in label): 
+            lty_oi = label.split('/')[0]
+            col_oi = label.split('/')[1]    
+            counter_plot = np.where(col_vec == col_oi)[0][0]
+            counter_lty  = np.where(lty_vec == lty_oi)[0][0]
+        else:
+            counter_plot = 0
+            counter_lty  = 0
         df = df[(df.time>=t0) & (df.time<=t1)]
         if (label=='MAC-LWP') | (label=='KAZR (Kollias)')| (label=='KAZR (Clough)'):
             df['lwp'] = df['lwp_bu']
@@ -1153,8 +1178,9 @@ def plot_1d(df_col,var_vec,**kwargs):
                     obj.plot(df.time/3600,df[var_vec[ii]],label=label,c='gray',zorder=1,linewidth=3,alpha=0.7)
                 else:
                     pcol = plot_colors[counter_plot]
+                    lty  = plot_ls[counter_lty]
                     if(label=='ERA5'): pcol='black'
-                    obj.plot(df.time/3600,df[var_vec[ii]],label=label,c=pcol,ls=plot_ls[counter_plot],zorder=2)
+                    obj.plot(df.time/3600,df[var_vec[ii]],label=label,c=pcol,ls=lty,zorder=2)
             obj.grid(alpha=0.2)
             # set units string
             if 'longnames' in kwargs and 'units' in kwargs:
@@ -1301,7 +1327,7 @@ def plot_2d(df_col2,var_vec,times,**kwargs):
         plot_colors = kwargs.get('plot_colors')
         
     if 'plot_ls' not in kwargs:
-        plot_ls = ['solid','dotted','dashed','dashdot']
+        plot_ls = ['solid','dashed','dotted','dashdot']
     else:
         plot_ls = kwargs.get('plot_ls')
     
@@ -1343,6 +1369,12 @@ def plot_2d(df_col2,var_vec,times,**kwargs):
     ######## MAKE PLOTS ########
     ############################
     
+    ## collect all color and linetype items    
+    df_sim = df_col2[df_col2['class'].str.contains('/')]
+    ov_tab = pd.Series(df_sim['class'].unique()).str.split(pat='/')
+    col_vec = np.unique([x[1] for x in ov_tab])
+    lty_vec = np.unique([x[0] for x in ov_tab])
+    
     if t_ave > 0.:
         print('temporal averaging over ' + str(t_ave) + ' h interval')
     counter = 0
@@ -1351,7 +1383,15 @@ def plot_2d(df_col2,var_vec,times,**kwargs):
         df_sub = df_col2[round(df_col2.time) == times[tt]*3600.]      
         counter_col = 0 
         counter_line = 0
-        for label, df in df_col2.groupby('class'):
+        for label, df in df_sub.groupby('class'):
+            if('/' in label): 
+                lty_oi = label.split('/')[0]
+                col_oi = label.split('/')[1]    
+                counter_plot = np.where(col_vec == col_oi)[0][0]
+                counter_lty  = np.where(lty_vec == lty_oi)[0][0]
+            else:
+                counter_plot = 0
+                counter_lty  = 0
             if (t_ave > 0.0) & (label[0:4] not in ['ERA5','Radi','AERI']):
                 #if tt==0:
                 #    print(label)
@@ -1392,14 +1432,15 @@ def plot_2d(df_col2,var_vec,times,**kwargs):
                 if(df['colflag'].unique() == 'gray'):
                     obj.plot(df[var_vec[ii]],df.zf,label=label,c='gray',zorder=1,linewidth=3,alpha=0.7)
                 else:
-                    pcol = plot_colors[counter_col]
-                    pline = 'solid'
+                    pcol = plot_colors[counter_plot]
+                    lty  = plot_ls[counter_lty]
+                    #pline = 'solid'
                     if(label=='ERA5'): pcol='black'
                     if(label=='AERI'): pcol='pink'
                     if(label[0:5]=='Radio'): 
                         pcol='grey'
                         pline=plot_ls[counter_line]
-                    obj.plot(df[var_vec[ii]],df.zf,label=label,c=pcol,ls=pline,zorder=2)
+                    obj.plot(df[var_vec[ii]],df.zf,label=label,c=pcol,ls=lty,zorder=2)
                 obj.grid(alpha=0.2)
                 obj.set_ylim([0, z_max])
                 
