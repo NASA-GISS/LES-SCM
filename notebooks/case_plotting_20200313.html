@@ -378,7 +378,7 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## load ERA5 fields</span>
-<span class="n">era5_1d</span><span class="p">,</span> <span class="n">era5_2d</span> <span class="o">=</span> <span class="n">load_era5</span><span class="p">(</span><span class="n">PATH</span><span class="o">=</span><span class="s1">&#39;../../data_files/&#39;</span><span class="p">)</span>
+<span class="n">era5_1d</span><span class="p">,</span> <span class="n">era5_2d</span> <span class="o">=</span> <span class="n">load_era5</span><span class="p">(</span><span class="n">PATH</span><span class="o">=</span><span class="s1">&#39;../data_files/&#39;</span><span class="p">)</span>
 
 <span class="c1">## load radiosondes</span>
 <span class="n">rs_dat</span> <span class="o">=</span> <span class="n">load_rs</span><span class="p">(</span><span class="n">t_filter</span> <span class="o">=</span> <span class="mf">7.</span><span class="p">)</span>
@@ -395,7 +395,6 @@ document.write(`
 
 <span class="c1">## load MAC-LWP</span>
 <span class="n">maclwp_dat</span> <span class="o">=</span> <span class="n">load_maclwp</span><span class="p">(</span><span class="n">t_filter</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">)</span> 
-<span class="n">gongiwp_dat</span> <span class="o">=</span> <span class="n">load_iwpgong</span><span class="p">(</span><span class="n">t_filter</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">)</span>
 
 <span class="c1">## load MODIS, VIIRS, and SENTINEL retrievals</span>
 <span class="n">modis_dat</span>    <span class="o">=</span> <span class="n">load_modis</span><span class="p">(</span><span class="n">t_filter</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">,</span><span class="n">sza_filter</span> <span class="o">=</span> <span class="mf">65.</span><span class="p">)</span>
@@ -411,12 +410,20 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>../../data_files/theta_temp_rh_sh_uvw_sst_along_trajectory_era5ml_28h_end_2020-03-13-18.nc
-../../data_files/anxsondewnpnM1.b1.20200313.052700.cdf
-../../data_files/anxsondewnpnM1.b1.20200313.112600.cdf
-../../data_files/anxsondewnpnM1.b1.20200313.172600.cdf
-../../data_files/anxsondewnpnM1.b1.20200313.232200.cdf
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>../data_files/theta_temp_rh_sh_uvw_sst_along_trajectory_era5ml_28h_end_2020-03-13-18.nc
+../data_files/anxsondewnpnM1.b1.20200313.052700.cdf
+../data_files/anxsondewnpnM1.b1.20200313.232200.cdf
+../data_files/anxsondewnpnM1.b1.20200313.112600.cdf
+../data_files/anxsondewnpnM1.b1.20200313.172600.cdf
 KAZR (Kollias): here using auxiliary field to estimate cloud-top temperature
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/gpfsm/dhome/tflorian/LES-SCM/notebooks/functions_plotting.py:306: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
+  aux_dat[&#39;zdiff&#39;] = np.abs(aux_dat[&#39;zf&#39;] - np.float64(p_df[&#39;zi&#39;]))
+/gpfsm/dhome/tflorian/LES-SCM/notebooks/functions_plotting.py:307: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
+  aux_dat[&#39;zdiff.25&#39;] = np.abs(aux_dat[&#39;zf&#39;] - np.float64(p_df[&#39;zi.25&#39;]))
+/gpfsm/dhome/tflorian/LES-SCM/notebooks/functions_plotting.py:308: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
+  aux_dat[&#39;zdiff.75&#39;] = np.abs(aux_dat[&#39;zf&#39;] - np.float64(p_df[&#39;zi.75&#39;]))
 </pre></div>
 </div>
 </div>
@@ -426,7 +433,8 @@ KAZR (Kollias): here using auxiliary field to estimate cloud-top temperature
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## load all simulations located in subfolders of the given directory</span>
 <span class="n">var_vec_1d</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;hfss&#39;</span><span class="p">,</span><span class="s1">&#39;hfls&#39;</span><span class="p">,</span><span class="s1">&#39;ts&#39;</span><span class="p">]</span> <span class="c1"># variables with ERA5 (longer time axis)</span>
 <span class="n">var_vec_2d</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;theta&#39;</span><span class="p">,</span><span class="s1">&#39;qv&#39;</span><span class="p">,</span><span class="s1">&#39;ua&#39;</span><span class="p">,</span><span class="s1">&#39;va&#39;</span><span class="p">]</span>
-<span class="n">df_col_1d</span><span class="p">,</span><span class="n">df_col_2d</span> <span class="o">=</span> <span class="n">load_sims</span><span class="p">(</span><span class="s1">&#39;../output_les/&#39;</span><span class="p">,</span><span class="n">var_vec_1d</span><span class="p">,</span><span class="n">var_vec_2d</span><span class="p">,</span><span class="n">t_shift</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span><span class="n">keyword</span><span class="o">=</span><span class="n">sim_keyword</span><span class="p">,</span><span class="n">subfolder</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">)</span>
+<span class="n">df_col_1d_les</span><span class="p">,</span><span class="n">df_col_2d_les</span> <span class="o">=</span> <span class="n">load_sims</span><span class="p">(</span><span class="s1">&#39;../output_les/&#39;</span><span class="p">,</span><span class="n">var_vec_1d</span><span class="p">,</span><span class="n">var_vec_2d</span><span class="p">,</span><span class="n">t_shift</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span><span class="n">keyword</span><span class="o">=</span><span class="n">sim_keyword</span><span class="p">,</span><span class="n">subfolder</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">)</span>
+<span class="n">df_col_1d_scm</span><span class="p">,</span><span class="n">df_col_2d_scm</span> <span class="o">=</span> <span class="n">load_sims</span><span class="p">(</span><span class="s1">&#39;../output_scm/&#39;</span><span class="p">,</span><span class="n">var_vec_1d</span><span class="p">,</span><span class="n">var_vec_2d</span><span class="p">,</span><span class="n">t_shift</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span><span class="n">keyword</span><span class="o">=</span><span class="n">sim_keyword</span><span class="p">,</span><span class="n">subfolder</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -437,20 +445,44 @@ KAZR (Kollias): here using auxiliary field to estimate cloud-top temperature
 Loading variables: f(time,height)
 ../output_les/dharma/comble_20200313_diagNa.nc
 ../output_les/dharma/comble_20200313_progNa.nc
+Loading variables: f(time)
+../output_scm/modele/comble_20200313_diagNa.nc
+Loading variables: f(time,height)
+../output_scm/modele/comble_20200313_diagNa.nc
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## plot variables that have only time dependence</span>
-<span class="c1">#plot_1d(pd.concat([df_col_1d,era5_1d,carra_dat,srfflux_dat]),var_vec_1d)dependence</span>
-<span class="n">plot_1d</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_col_1d</span><span class="p">]),</span><span class="n">var_vec_1d</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_all</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_col_1d_les</span><span class="p">,</span><span class="n">df_col_1d_scm</span><span class="p">,</span><span class="n">era5_1d</span><span class="p">,</span><span class="n">carra_dat</span><span class="p">,</span><span class="n">srfflux_dat</span><span class="p">])</span>
+<span class="c1">#df_all[df_all[&#39;class&#39;].str.contains(&#39;/&#39;),]</span>
+<span class="n">df_all</span><span class="p">[</span><span class="n">df_all</span><span class="p">[</span><span class="s1">&#39;class&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)][</span><span class="s1">&#39;class&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/60e2ae6749b41ff4633a4a167fbadfbcb99743f251353fb84d4c6bfe1c7b2ed4.png" src="../_images/60e2ae6749b41ff4633a4a167fbadfbcb99743f251353fb84d4c6bfe1c7b2ed4.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;dharma/comble_20200313_diagNa.nc&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">run</span> functions_plotting.py 
+
+<span class="c1">## plot variables that have only time dependence</span>
+<span class="c1">#plot_1d(pd.concat([df_col_1d,era5_1d,carra_dat,srfflux_dat]),var_vec_1d)dependence</span>
+<span class="n">plot_1d</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_col_1d_les</span><span class="p">,</span><span class="n">df_col_1d_scm</span><span class="p">,</span><span class="n">era5_1d</span><span class="p">,</span><span class="n">carra_dat</span><span class="p">,</span><span class="n">srfflux_dat</span><span class="p">]),</span><span class="n">var_vec_1d</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/usr/local/other/anaconda/GEOSpyD/24.3.0-0/2024-08-29/envs/py3.12/lib/python3.12/site-packages/matplotlib/cbook.py:1699: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
+  return math.isfinite(val)
+</pre></div>
+</div>
+<img alt="../_images/02483e5c3455f4b4a6a34c80a2e4fd149294f0226eb9222f2854d770d1013f24.png" src="../_images/02483e5c3455f4b4a6a34c80a2e4fd149294f0226eb9222f2854d770d1013f24.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -459,8 +491,10 @@ Loading variables: f(time,height)
 
 <span class="c1">## load all simulations located in subfolders of the given directory</span>
 <span class="n">var_vec_1d</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;lwpr&#39;</span><span class="p">,</span><span class="s1">&#39;lwpc&#39;</span><span class="p">,</span><span class="s1">&#39;iwp&#39;</span><span class="p">,</span><span class="s1">&#39;od&#39;</span><span class="p">]</span> <span class="c1"># variables without ERA5 (shorter time axis)</span>
-<span class="n">var_vec_2d</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;theta&#39;</span><span class="p">,</span><span class="s1">&#39;qv&#39;</span><span class="p">,</span><span class="s1">&#39;qlc&#39;</span><span class="p">,</span><span class="s1">&#39;qlr&#39;</span><span class="p">,</span><span class="s1">&#39;ta&#39;</span><span class="p">,</span><span class="s1">&#39;ua&#39;</span><span class="p">,</span><span class="s1">&#39;va&#39;</span><span class="p">,</span><span class="s1">&#39;qic&#39;</span><span class="p">,</span><span class="s1">&#39;qis&#39;</span><span class="p">,</span><span class="s1">&#39;qig&#39;</span><span class="p">,</span><span class="s1">&#39;ua&#39;</span><span class="p">,</span><span class="s1">&#39;va&#39;</span><span class="p">,</span><span class="s1">&#39;ta&#39;</span><span class="p">,</span><span class="s1">&#39;prf&#39;</span><span class="p">]</span>
-<span class="n">df_col_1d</span><span class="p">,</span><span class="n">df_col_2d</span> <span class="o">=</span> <span class="n">load_sims</span><span class="p">(</span><span class="s1">&#39;../output_les/&#39;</span><span class="p">,</span><span class="n">var_vec_1d</span><span class="p">,</span><span class="n">var_vec_2d</span><span class="p">,</span><span class="n">t_shift</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span><span class="n">keyword</span><span class="o">=</span><span class="n">sim_keyword</span><span class="p">,</span><span class="n">diag_zi_ctt</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">subfolder</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="n">ignore</span><span class="o">=</span><span class="s1">&#39;ICON&#39;</span><span class="p">)</span>
+<span class="n">var_vec_2d_les</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;theta&#39;</span><span class="p">,</span><span class="s1">&#39;qv&#39;</span><span class="p">,</span><span class="s1">&#39;qlc&#39;</span><span class="p">,</span><span class="s1">&#39;qlr&#39;</span><span class="p">,</span><span class="s1">&#39;ta&#39;</span><span class="p">,</span><span class="s1">&#39;ua&#39;</span><span class="p">,</span><span class="s1">&#39;va&#39;</span><span class="p">,</span><span class="s1">&#39;qic&#39;</span><span class="p">,</span><span class="s1">&#39;qis&#39;</span><span class="p">,</span><span class="s1">&#39;qig&#39;</span><span class="p">,</span><span class="s1">&#39;ua&#39;</span><span class="p">,</span><span class="s1">&#39;va&#39;</span><span class="p">,</span><span class="s1">&#39;ta&#39;</span><span class="p">,</span><span class="s1">&#39;prf&#39;</span><span class="p">]</span>
+<span class="n">var_vec_2d_scm</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;theta&#39;</span><span class="p">,</span><span class="s1">&#39;qv&#39;</span><span class="p">,</span><span class="s1">&#39;qlc&#39;</span><span class="p">,</span><span class="s1">&#39;qlr&#39;</span><span class="p">,</span><span class="s1">&#39;ta&#39;</span><span class="p">,</span><span class="s1">&#39;ua&#39;</span><span class="p">,</span><span class="s1">&#39;va&#39;</span><span class="p">,</span><span class="s1">&#39;qicc&#39;</span><span class="p">,</span><span class="s1">&#39;qics&#39;</span><span class="p">,</span><span class="s1">&#39;qipc&#39;</span><span class="p">,</span><span class="s1">&#39;qips&#39;</span><span class="p">,</span><span class="s1">&#39;ua&#39;</span><span class="p">,</span><span class="s1">&#39;va&#39;</span><span class="p">,</span><span class="s1">&#39;ta&#39;</span><span class="p">,</span><span class="s1">&#39;prf&#39;</span><span class="p">]</span>
+<span class="n">df_col_1d_les</span><span class="p">,</span><span class="n">df_col_2d_les</span> <span class="o">=</span> <span class="n">load_sims</span><span class="p">(</span><span class="s1">&#39;../output_les/&#39;</span><span class="p">,</span><span class="n">var_vec_1d</span><span class="p">,</span><span class="n">var_vec_2d_les</span><span class="p">,</span><span class="n">t_shift</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span><span class="n">keyword</span><span class="o">=</span><span class="n">sim_keyword</span><span class="p">,</span><span class="n">diag_zi_ctt</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">df_col_1d_scm</span><span class="p">,</span><span class="n">df_col_2d_scm</span> <span class="o">=</span> <span class="n">load_sims</span><span class="p">(</span><span class="s1">&#39;../output_scm/&#39;</span><span class="p">,</span><span class="n">var_vec_1d</span><span class="p">,</span><span class="n">var_vec_2d_scm</span><span class="p">,</span><span class="n">t_shift</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span><span class="n">keyword</span><span class="o">=</span><span class="n">sim_keyword</span><span class="p">,</span><span class="n">diag_zi_ctt</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -475,17 +509,24 @@ computing inversion height, cloud-top height, and cloud-top temperature
 using liquid(-ice) potential temperature
 dharma/comble_20200313_diagNa.nc
 dharma/comble_20200313_progNa.nc
+Loading variables: f(time)
+../output_scm/modele/comble_20200313_diagNa.nc
+Loading variables: f(time,height)
+../output_scm/modele/comble_20200313_diagNa.nc
+computing inversion height, cloud-top height, and cloud-top temperature
+modele/comble_20200313_diagNa.nc
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## plot variables that have only time dependence</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">run</span> functions_plotting.py 
+<span class="c1">## plot variables that have only time dependence</span>
 <span class="c1">#plot_1d(pd.concat([df_col_1d,maclwp_dat,modis_dat,viirs_dat,sentinel_dat,kazrkollias_dat,kazrclough_dat,calipso_dat,radflux_dat]),[&#39;zi&#39;,&#39;od&#39;,&#39;lwp&#39;,&#39;iwp&#39;,&#39;ctt&#39;])</span>
 
 <span class="c1">#plot_1d(pd.concat([df_col_1d,maclwp_dat,kazrkollias_dat,kazrclough_dat,calipso_dat,radflux_dat]),[&#39;cth&#39;,&#39;od&#39;,&#39;lwp&#39;,&#39;iwp&#39;,&#39;ctt&#39;],longnames=[&#39;cloud-top height&#39;,&#39;cloud optical depth&#39;,&#39;liquid water path&#39;,&#39;ice water path&#39;,&#39;cloud-top temperature&#39;],units=[&#39;m&#39;,&#39;&#39;,&#39;kg m^-2&#39;,&#39;kg m^-2&#39;,&#39;C&#39;])</span>
-<span class="n">plot_1d</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_col_1d</span><span class="p">]),[</span><span class="s1">&#39;cth&#39;</span><span class="p">,</span><span class="s1">&#39;od&#39;</span><span class="p">,</span><span class="s1">&#39;lwp&#39;</span><span class="p">,</span><span class="s1">&#39;iwp&#39;</span><span class="p">,</span><span class="s1">&#39;ctt&#39;</span><span class="p">],</span><span class="n">longnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;cloud-top height&#39;</span><span class="p">,</span><span class="s1">&#39;cloud optical depth&#39;</span><span class="p">,</span><span class="s1">&#39;liquid water path&#39;</span><span class="p">,</span><span class="s1">&#39;ice water path&#39;</span><span class="p">,</span><span class="s1">&#39;cloud-top temperature&#39;</span><span class="p">],</span><span class="n">units</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;m&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="s1">&#39;kg m^-2&#39;</span><span class="p">,</span><span class="s1">&#39;kg m^-2&#39;</span><span class="p">,</span><span class="s1">&#39;C&#39;</span><span class="p">])</span>
+<span class="n">plot_1d</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_col_1d_les</span><span class="p">,</span><span class="n">df_col_1d_scm</span><span class="p">,</span><span class="n">maclwp_dat</span><span class="p">,</span><span class="n">kazrkollias_dat</span><span class="p">,</span><span class="n">kazrclough_dat</span><span class="p">,</span><span class="n">calipso_dat</span><span class="p">,</span><span class="n">radflux_dat</span><span class="p">]),[</span><span class="s1">&#39;cth&#39;</span><span class="p">,</span><span class="s1">&#39;od&#39;</span><span class="p">,</span><span class="s1">&#39;lwp&#39;</span><span class="p">,</span><span class="s1">&#39;iwp&#39;</span><span class="p">,</span><span class="s1">&#39;ctt&#39;</span><span class="p">],</span><span class="n">longnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;cloud-top height&#39;</span><span class="p">,</span><span class="s1">&#39;cloud optical depth&#39;</span><span class="p">,</span><span class="s1">&#39;liquid water path&#39;</span><span class="p">,</span><span class="s1">&#39;ice water path&#39;</span><span class="p">,</span><span class="s1">&#39;cloud-top temperature&#39;</span><span class="p">],</span><span class="n">units</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;m&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="s1">&#39;kg m^-2&#39;</span><span class="p">,</span><span class="s1">&#39;kg m^-2&#39;</span><span class="p">,</span><span class="s1">&#39;C&#39;</span><span class="p">])</span>
 
 <span class="c1">## plot variables that have only time dependence (for now excluding imager retrievals that are mostly SZA &gt; 70)</span>
 <span class="c1">#plot_1d(pd.concat([df_col_1d,maclwp_dat,kazrkollias_dat,kazrclough_dat,calipso_dat,gongiwp_dat,radflux_dat]),[&#39;od&#39;,&#39;lwp&#39;,&#39;iwp&#39;]) #&#39;zi&#39;,&#39;od&#39;,&#39;lwp&#39;,&#39;iwp</span>
@@ -493,7 +534,11 @@ dharma/comble_20200313_progNa.nc
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/cec0642311a749b28b68f510eef3d3d5cfc781a848f61f1e3373f9b1fc1ca473.png" src="../_images/cec0642311a749b28b68f510eef3d3d5cfc781a848f61f1e3373f9b1fc1ca473.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/usr/local/other/anaconda/GEOSpyD/24.3.0-0/2024-08-29/envs/py3.12/lib/python3.12/site-packages/matplotlib/cbook.py:1699: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
+  return math.isfinite(val)
+</pre></div>
+</div>
+<img alt="../_images/3a998b1046694134439018c5804e28f87d16e32dc6fbc205fbc1fdeeac3b93a9.png" src="../_images/3a998b1046694134439018c5804e28f87d16e32dc6fbc205fbc1fdeeac3b93a9.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -505,7 +550,7 @@ dharma/comble_20200313_progNa.nc
 
 <span class="c1">## example where ERA5 and radiosonde are included</span>
 <span class="c1">#plot_2d(pd.concat([df_col_2d,era5_2d,rs_dat,aeri_dat]),var_vec = [&#39;ta&#39;,&#39;theta&#39;,&#39;qv&#39;,&#39;ws&#39;,&#39;wd&#39;],times=[-1.5,0,4,8,18],z_max=6000)</span>
-<span class="n">plot_2d</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_col_2d</span><span class="p">]),</span><span class="n">var_vec</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ta&#39;</span><span class="p">,</span><span class="s1">&#39;theta&#39;</span><span class="p">,</span><span class="s1">&#39;qv&#39;</span><span class="p">,</span><span class="s1">&#39;ws&#39;</span><span class="p">,</span><span class="s1">&#39;wd&#39;</span><span class="p">],</span><span class="n">times</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">18</span><span class="p">],</span><span class="n">z_max</span><span class="o">=</span><span class="mi">6000</span><span class="p">)</span>
+<span class="n">plot_2d</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_col_2d_les</span><span class="p">,</span><span class="n">df_col_2d_scm</span><span class="p">,</span><span class="n">era5_2d</span><span class="p">,</span><span class="n">rs_dat</span><span class="p">,</span><span class="n">aeri_dat</span><span class="p">]),</span><span class="n">var_vec</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ta&#39;</span><span class="p">,</span><span class="s1">&#39;theta&#39;</span><span class="p">,</span><span class="s1">&#39;qv&#39;</span><span class="p">,</span><span class="s1">&#39;ws&#39;</span><span class="p">,</span><span class="s1">&#39;wd&#39;</span><span class="p">],</span><span class="n">times</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">18</span><span class="p">],</span><span class="n">z_max</span><span class="o">=</span><span class="mi">6000</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -515,7 +560,7 @@ Computing wind direction
 temporal averaging over 1.0 h interval
 </pre></div>
 </div>
-<img alt="../_images/869eef02623a037dac227d923ca5892ee314c76534031ada51b76a7efd78830a.png" src="../_images/869eef02623a037dac227d923ca5892ee314c76534031ada51b76a7efd78830a.png" />
+<img alt="../_images/efd01e4c759f990d3ade593eb4442d7655615322c5320673015b85bbba796db1.png" src="../_images/efd01e4c759f990d3ade593eb4442d7655615322c5320673015b85bbba796db1.png" />
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure size 1000x600 with 0 Axes&gt;
 </pre></div>
 </div>
