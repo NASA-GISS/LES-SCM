@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>ModelE Output Processing &#8212; NASA-GISS LES-SCM Overview</title>
+    <title>&lt;no title&gt; &#8212; NASA-GISS LES-SCM Overview</title>
   
   
   
@@ -58,7 +58,7 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/ModelE_output_conversion';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/sat_test';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -263,7 +263,7 @@
       
       
       
-      <li><a href="../_sources/notebooks/ModelE_output_conversion.ipynb" target="_blank"
+      <li><a href="../_sources/notebooks/sat_test.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -334,7 +334,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -345,11 +347,19 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>ModelE Output Processing</h1>
+    <h1><no title></h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="simple visible nav section-nav flex-column">
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -359,89 +369,108 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="modele-output-processing">
-<h1>ModelE Output Processing<a class="headerlink" href="#modele-output-processing" title="Link to this heading">#</a></h1>
-<div class="cell docutils container">
+  <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## load functions and libraries</span>
-<span class="o">%</span><span class="k">run</span> functions_ModelE_conversion.py 
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 
-<span class="k">if</span> <span class="s1">&#39;openpyxl&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
-    <span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>--no-deps<span class="w"> </span>openpyxl-3.1.5-py2.py3-none-any.whl<span class="w"> </span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy.ma</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ma</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">rioxarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">rxr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">rasterio</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">shapely.geometry</span><span class="w"> </span><span class="kn">import</span> <span class="n">mapping</span><span class="p">,</span> <span class="n">box</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
+<span class="c1">#import earthpy as et</span>
+<span class="c1">#import earthpy.spatial as es</span>
+<span class="c1">#import earthpy.plot as ep</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">osgeo</span><span class="w"> </span><span class="kn">import</span> <span class="n">gdal</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">xr</span><span class="o">.</span><span class="n">set_options</span><span class="p">(</span><span class="n">display_style</span><span class="o">=</span><span class="s1">&#39;html&#39;</span><span class="p">)</span>
+
+<span class="o">%</span><span class="k">run</span> functions_plotting.py 
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_subdataset</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">varnames</span><span class="p">):</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">subdatasets</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">GetSubDatasets</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">([</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">subdatasets</span><span class="p">])</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">varname</span> <span class="ow">in</span> <span class="n">varnames</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">varname</span><span class="p">)</span>
+        <span class="n">l</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>  <span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">subdatasets</span> <span class="k">if</span> <span class="n">varname</span> <span class="ow">in</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="p">])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">l</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">read_hdf4</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">varnames</span><span class="p">):</span>
+    <span class="n">ld</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">fname_list</span> <span class="o">=</span> <span class="n">get_subdataset</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">varnames</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">fname_list</span><span class="p">:</span>
+        <span class="n">myDataset</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">decode_coords</span><span class="o">=</span><span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;rasterio&#39;</span><span class="p">)</span><span class="c1">#xr.open_rasterio(fname)</span>
+        <span class="n">ld</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">myDataset</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">fname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">ld</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">GOES_data</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="s2">&quot;/css/geostationary/BackStage/GOES-16-ABI-L1B-FULLD/2022/019/14/OR_ABI-L1b-RadF-M6C01_G16_s20220191400209_e20220191409517_c20220191409566.nc&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">GOES_data</span><span class="o">.</span><span class="n">Rad</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Defaulting to user installation because normal site-packages is not writeable
-<span class=" -Color -Color-Yellow">DEPRECATION: Loading egg at /gpfsm/dulocal15/sles15/other/anaconda/GEOSpyD/24.3.0-0/2024-08-29/envs/py3.12/lib/python3.12/site-packages/pygrads-3.0b1-py3.12.egg is deprecated. pip 24.3 will enforce this behaviour change. A possible replacement is to use pip for package installation. Discussion can be found at https://github.com/pypa/pip/issues/12330</span>
-Processing ./openpyxl-3.1.5-py2.py3-none-any.whl
-openpyxl is already installed with the same version as the provided wheel. Use --force-reinstall to force an installation of the wheel.
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.QuadMesh at 0x14da44e98cd0&gt;
 </pre></div>
 </div>
+<img alt="../_images/9a9df38a95478916d1be6ad093eeaebfbefdb02abc321cf70dc7b26d9bf040de.png" src="../_images/9a9df38a95478916d1be6ad093eeaebfbefdb02abc321cf70dc7b26d9bf040de.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## define list of LES simulations for DEPHY output conversion</span>
-<span class="c1">## format:</span>
-<span class="c1">## &quot;original LES output directory&quot;:&quot;converted file name&quot;</span>
-<span class="n">case_list</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;SCM_COMBLE-MIP_diagNa&#39;</span><span class="p">:</span><span class="s1">&#39;comble_20200313_diagNa&#39;</span><span class="p">}</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">case_list</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;SCM_COMBLE-20200409_diagNa&#39;</span><span class="p">:</span><span class="s1">&#39;comble_20200409_diagNa&#39;</span><span class="p">}</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">case_list</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;SCM_COMBLE-20200425_diagNa&#39;</span><span class="p">:</span><span class="s1">&#39;comble_20200425_diagNa&#39;</span><span class="p">}</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">case_list</span><span class="p">:</span>
-    <span class="c1">## </span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="n">ModelE_convert</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">case_list</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;/css/modis/Collection6.1/L1/MOD021KM/2022/019/MOD021KM.A2022019.1445.061.2022020095153.hdf&quot;</span>
+
+<span class="n">ds0</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+<span class="n">band_ds</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">ds0</span><span class="o">.</span><span class="n">GetSubDatasets</span><span class="p">()[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">gdal</span><span class="o">.</span><span class="n">GA_ReadOnly</span><span class="p">)</span>
+<span class="n">band_array</span> <span class="o">=</span> <span class="n">band_ds</span><span class="o">.</span><span class="n">ReadAsArray</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span>
+<span class="n">band_array</span>
+<span class="n">band_ds</span><span class="o">.</span><span class="n">GetDescription</span><span class="p">()</span>
+<span class="n">band_array</span><span class="o">.</span><span class="n">shape</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">band_array</span><span class="p">[</span><span class="mi">0</span><span class="p">,:,:],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SCM_COMBLE-20200425_diagNa
---------------------
-/discover/nobackup/tflorian/modelE_runs/SCM_COMBLE-20200425_diagNa/allsteps.allmergeSCM_COMBLE-20200425_diagNa.nc
-do_ice =  True
-&lt;class &#39;netCDF4._netCDF4.Dataset&#39;&gt;
-root group (NETCDF3_CLASSIC data model, file format NETCDF3):
-    title: ModelE3 SCM results for COMBLE-MIP case: fixed stratiform Nd and Ni
-    reference: https://github.com/ARM-Development/comble-mip
-    authors: Ann Fridlind (ann.fridlind@nasa.gov), Florian Tornow (florian.tornow@nasa.gov), Andrew Ackerman (andrew.ackerman@nasa.gov)
-    source: /discover/nobackup/tflorian/modelE_runs/SCM_COMBLE-20200425_diagNa/allsteps.allmergeSCM_COMBLE-20200425_diagNa.nc
-    version: 2025-05-29 21:50:40
-    format_version: DEPHY SCM format version 1.6
-    script: convert_ModelE3_SCM_output_to_dephy_format.ipynb
-    startDate: 2020-03-12T22:00:00Z
-    force_geo: 1
-    surfaceType: ocean
-    surfaceForcing: ts
-    lat: 74.5 deg N
-    dp: see pressure variable
-    np: 110
-    dimensions(sizes): time(42), layer(110)
-    variables(dimensions): float64 time(time), float64 layer(layer), float64 pa(time, layer), float64 pe(time, layer), float64 ps(time), float64 ts(time), float64 ustar(time), float64 z0(time), float64 z0h(time), float64 z0q(time), float64 hfss(time), float64 hfls(time), float64 ol(time), float64 pblh(time), float64 zi(time), float64 lwpc(time), float64 lwpr(time), float64 iwp(time), float64 cf(time), float64 cflc(time), float64 cfc(time), float64 od(time), float64 odlc(time), float64 pr(time), float64 pri(time), float64 rlut(time), float64 rlds(time), float64 rlus(time), float64 ssaf(time), float64 zf(time, layer), float64 ua(time, layer), float64 va(time, layer), float64 rhoa(time, layer), float64 ta(time, layer), float64 qv(time, layer), float64 hur(time, layer), float64 huri(time, layer), float64 theta(time, layer), float64 qlc(time, layer), float64 qlr(time, layer), float64 qi(time, layer), float64 fh(time, layer), float64 flc(time, layer), float64 fc(time, layer), float64 prf(time, layer), float64 prfi(time, layer), float64 tke(time, layer), float64 eps(time, layer), float64 uw(time, layer), float64 vw(time, layer), float64 w2(time, layer), float64 wth(time, layer), float64 vf_thli(time, layer), float64 wqv(time, layer), float64 vf_qt(time, layer), float64 cmfu(time, layer), float64 cmfd(time, layer), float64 rld(time, layer), float64 rlu(time, layer), float64 dth_rad(time, layer), float64 dth_micro(time, layer), float64 dth_turb(time, layer), float64 dq_micro(time, layer), float64 dq_turb(time, layer), float64 na1(time, layer), float64 na2(time, layer), float64 na3(time, layer), float64 dna_micro_warm(time, layer), float64 dna_micro_cold(time, layer), float64 dna_turb(time, layer), float64 dni_het(time, layer), float64 dni_sip(time, layer), float64 dni_hom(time, layer), float64 qlcs(time, layer), float64 qlrs(time, layer), float64 qics(time, layer), float64 qips(time, layer), float64 qlcc(time, layer), float64 qlrc(time, layer), float64 qicc(time, layer), float64 qipc(time, layer), float64 nlcs(time, layer), float64 nlrs(time, layer), float64 nics(time, layer), float64 nips(time, layer), float64 relcc(time, layer), float64 relrc(time, layer), float64 reicc(time, layer), float64 reipc(time, layer), float64 flcs(time, layer), float64 flrs(time, layer), float64 fics(time, layer), float64 fips(time, layer), float64 flcc(time, layer), float64 flrc(time, layer), float64 ficc(time, layer), float64 fipc(time, layer), float64 vmlcs(time, layer), float64 vmlrs(time, layer), float64 vmics(time, layer), float64 vmips(time, layer), float64 vmlcc(time, layer), float64 vmlrc(time, layer), float64 vmicc(time, layer), float64 vmipc(time, layer)
-    groups: 
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x14da477faa60&gt;
+</pre></div>
+</div>
+<img alt="../_images/db873defb9e32c977efa525afe7dab541d1b3d4670ba965e242157b0cd15270d.png" src="../_images/db873defb9e32c977efa525afe7dab541d1b3d4670ba965e242157b0cd15270d.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">band_ds</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">ds0</span><span class="o">.</span><span class="n">GetSubDatasets</span><span class="p">()[</span><span class="mi">4</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">gdal</span><span class="o">.</span><span class="n">GA_ReadOnly</span><span class="p">)</span>
+<span class="n">band_array</span> <span class="o">=</span> <span class="n">band_ds</span><span class="o">.</span><span class="n">ReadAsArray</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span>
+<span class="n">band_ds</span><span class="o">.</span><span class="n">GetDescription</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;HDF4_EOS:EOS_SWATH:&quot;/css/modis/Collection6.1/L1/MOD021KM/2022/019/MOD021KM.A2022019.1445.061.2022020095153.hdf&quot;:MODIS_SWATH_Type_L1B:EV_250_Aggr1km_RefSB&#39;
 </pre></div>
 </div>
 </div>
 </div>
-</section>
 
     <script type="text/x-thebe-config">
     {
@@ -452,16 +481,16 @@ root group (NETCDF3_CLASSIC data model, file format NETCDF3):
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "conda-base-py"
+            mode: "conda-env-sci-py"
         },
         kernelOptions: {
-            name: "conda-base-py",
+            name: "conda-env-sci-py",
             path: "./notebooks"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'conda-base-py'</script>
+    <script>kernelName = 'conda-env-sci-py'</script>
 
                 </article>
               
@@ -479,6 +508,21 @@ root group (NETCDF3_CLASSIC data model, file format NETCDF3):
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="simple visible nav section-nav flex-column">
+</ul>
+
+  </nav></div>
+
+</div></div>
               
             
           </div>

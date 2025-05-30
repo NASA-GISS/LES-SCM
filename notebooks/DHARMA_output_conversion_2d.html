@@ -1,0 +1,1492 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Example: convert DHARMA LES 2D output to DEPHY format &#8212; NASA-GISS LES-SCM Overview</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/DHARMA_output_conversion_2d';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../README.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/123025312.png" class="logo__image only-light" alt="NASA-GISS LES-SCM Overview - Home"/>
+    <script>document.write(`<img src="../_static/123025312.png" class="logo__image only-dark" alt="NASA-GISS LES-SCM Overview - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../README.html">
+                    LES-SCM
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Project Information</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="cases_list.html">Overview of Cases</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../case_description.html">Case Descriptions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="case_descr_20200313.html">2020-03-13</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Simulations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../obs_constrained_les_scm.html">Observation-constrained LES-SCM</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="case_plotting_20200313.html">2020-03-13</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/NASA-GISS/LES-SCM" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/DHARMA_output_conversion_2d.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Example: convert DHARMA LES 2D output to DEPHY format</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-libraries">Import libraries</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#specify-directory-locations">Specify directory locations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#read-dharma-data">Read DHARMA data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#locate-2d-files">Locate 2D files</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#read-2d-files">Read 2D files</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prepare-output-file-in-dephy-format">Prepare output file in DEPHY format</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#read-requested-variables-list">Read requested variables list</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="example-convert-dharma-les-2d-output-to-dephy-format">
+<h1>Example: convert DHARMA LES 2D output to DEPHY format<a class="headerlink" href="#example-convert-dharma-les-2d-output-to-dephy-format" title="Link to this heading">#</a></h1>
+<p>Code to read DHARMA LES output files and write to DEPHY format (NetCDF)</p>
+<p>Contributed by Florian Tornow Columbia University &amp; NASA/GISS and Ann Fridlind from NASA/GISS</p>
+<section id="import-libraries">
+<h2>Import libraries<a class="headerlink" href="#import-libraries" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">csv</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">netCDF4</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">netCDF4</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dataset</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
+
+<span class="o">%</span><span class="k">run</span> function_extract_2d.py 
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="specify-directory-locations">
+<h2>Specify directory locations<a class="headerlink" href="#specify-directory-locations" title="Link to this heading">#</a></h2>
+<p>If on the ARM JupyterHub, it is recommended to create and specify a local directory that is outside of the COMBLE-MIP repository to upload raw model output files in your model’s format.</p>
+<p>Processed domain-mean outputs are invited for commit to the GitHub repository on a user-specified branch under /comble-mip/output_les/YOUR_MODEL_NAME/sandbox/YOUR_RUN_NAME. These can be committed and removed at any time.</p>
+<p>It is requested to name your baseline small-domain run directory as ‘Lx25km_dx100m’ (in place of YOUR_RUN_NAME), so that it can readily be automatically compared with other runs using the same test specification.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># specify start time of simulation and simulation name</span>
+<span class="n">start_dtime</span> <span class="o">=</span> <span class="s1">&#39;2020-03-12 22:00:00.0&#39;</span>
+
+<span class="c1"># specify input data directory name, traceable to source machine, and</span>
+<span class="c1"># specify output file name (see file naming convention in TOC)</span>
+
+<span class="c1"># ProgNa with ice test</span>
+<span class="n">my_readdir</span> <span class="o">=</span> <span class="s1">&#39;case0313_diag_ice25_nomiz_dx100_specZ0_hm_largedomain&#39;</span>
+<span class="n">my_outfile</span> <span class="o">=</span> <span class="s1">&#39;DHARMA_Lx25_dx100_FixN_2D_large.nc&#39;</span>
+
+<span class="c1"># FixN with no ice test</span>
+<span class="n">my_readdir</span> <span class="o">=</span> <span class="s1">&#39;comble_progna_baseline&#39;</span>
+<span class="n">my_outfile</span> <span class="o">=</span> <span class="s1">&#39;comble_20200313_progNa_2D.nc&#39;</span>
+
+<span class="c1"># specify local source directories (additional subdirectories if restart was required)</span>
+<span class="n">my_rundir</span> <span class="o">=</span> <span class="s1">&#39;/home/tflorian/nobackup/dharma_run/cao_2018/&#39;</span> <span class="o">+</span> <span class="n">my_readdir</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span>
+
+<span class="n">my_outdirs</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">my_rundir</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">f</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)],</span> <span class="n">key</span><span class="o">=</span><span class="nb">str</span><span class="o">.</span><span class="n">lower</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_outdirs</span><span class="p">)</span>
+
+<span class="c1"># specify Github scratch directory where processed model output will be committed</span>
+<span class="n">my_gitdir</span> <span class="o">=</span> <span class="s1">&#39;/home/tflorian/LES-SCM/output_les/dharma/&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;0-20h&#39;, &#39;cao.cdf&#39;, &#39;cao.input&#39;, &#39;carma_rad.p_000.gz&#39;, &#39;dharma&#39;, &#39;dharma.2024Oct22.tar.gz&#39;, &#39;dharma.slurm.out&#39;, &#39;DHARMA_LES_ASCII_comble.input_forcing&#39;, &#39;DHARMA_LES_ASCII_comble.input_o3&#39;, &#39;DHARMA_LES_ASCII_comble.input_sounding&#39;, &#39;DHARMA_LES_ASCII_comble.input_z&#39;, &#39;llama.in&#39;, &#39;llama.out&#39;, &#39;mie.data&#39;, &#39;restart.dat&#39;, &#39;submit_dharma.slurm&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="read-dharma-data">
+<h2>Read DHARMA data<a class="headerlink" href="#read-dharma-data" title="Link to this heading">#</a></h2>
+<section id="locate-2d-files">
+<h3>Locate 2D files<a class="headerlink" href="#locate-2d-files" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## locate all files that have the expected filename (*.tgz)</span>
+<span class="n">path</span> <span class="o">=</span> <span class="n">my_rundir</span> <span class="o">+</span> <span class="n">my_outdirs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">direc</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="n">NCFILES</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">direc</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">&quot;*tgz&quot;</span><span class="p">))</span>
+<span class="n">NCFILES_STR</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s1">&#39;*.tgz&#39;</span><span class="p">)]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">NCFILES_STR</span><span class="p">)</span>
+
+<span class="n">input_filenames</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">fn</span> <span class="ow">in</span> <span class="n">NCFILES</span><span class="p">:</span> 
+    <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;alt_0&#39;</span> <span class="ow">in</span> <span class="n">NCFILES_STR</span><span class="p">[</span><span class="n">count</span><span class="p">]):</span>
+        <span class="n">input_filenames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
+    <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+    
+<span class="n">input_filenames</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">input_filenames</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_alt_3d_023190.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_alt_3d_027758.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_PLT_027758.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_PLT_007200.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_PLT_014407.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_PLT_018750.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_alt_027758.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_PLT_010082.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_alt_007200.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_alt_3d_012965.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_alt_029269.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_alt_021726.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_alt_012965.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_PLT_008641.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_alt_026274.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_alt_3d_001440.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_alt_001440.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_alt_3d_007200.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_alt_015847.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_PLT_029269.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_PLT_026274.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_PLT_011524.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_alt_3d_011524.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_alt_004320.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_alt_3d_000000.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_PLT_001440.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_PLT_023190.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_alt_017288.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_PLT_004320.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_alt_024730.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_PLT_021726.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_PLT_002880.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_alt_3d_017288.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_alt_005760.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_alt_3d_018750.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_alt_3d_020206.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_alt_011524.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_alt_014407.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_alt_3d_024730.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_alt_020206.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_alt_3d_008641.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_alt_018750.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_alt_3d_004320.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_PLT_012965.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_alt_3d_002880.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_alt_023190.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_alt_3d_029269.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_PLT_015847.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_PLT_000000.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_alt_3d_014407.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_alt_3d_021726.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_alt_010082.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_alt_002880.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_PLT_020206.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_alt_3d_010082.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_alt_3d_015847.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_PLT_024730.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_alt_3d_005760.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_PLT_005760.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_alt_3d_026274.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_PLT_017288.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_alt_000000.tgz&#39;, &#39;/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma_alt_008641.tgz&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="read-2d-files">
+<h3>Read 2D files<a class="headerlink" href="#read-2d-files" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## obtain model horizontal resolution</span>
+<span class="n">input_filename</span> <span class="o">=</span> <span class="n">my_rundir</span> <span class="o">+</span> <span class="n">my_outdirs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;/dharma.cdf&#39;</span>
+<span class="n">dharma_params</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">input_filename</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">input_filename</span><span class="p">)</span>
+
+<span class="n">nx</span> <span class="o">=</span> <span class="n">dharma_params</span><span class="p">[</span><span class="s1">&#39;geometry&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">nx</span>
+<span class="n">Lx</span> <span class="o">=</span> <span class="n">dharma_params</span><span class="p">[</span><span class="s1">&#39;geometry&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">L_x</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/tflorian/nobackup/dharma_run/cao_2018/comble_progna_baseline/0-20h/dharma.cdf
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xy_res</span> <span class="o">=</span> <span class="n">Lx</span><span class="o">/</span><span class="n">nx</span>
+<span class="n">xy_res</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100.0
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">run</span> function_extract_2d.py 
+<span class="n">time_vec</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">input_filename</span> <span class="ow">in</span> <span class="n">input_filenames</span><span class="p">:</span>
+    
+    <span class="c1">## obtain timestamp</span>
+    <span class="n">time_vec</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obtain_time</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="n">input_filename</span><span class="p">))</span>
+
+    <span class="c1">## ascertain horizontal resolution and prepare horizontal grid</span>
+    <span class="n">xy_res</span> <span class="o">=</span> <span class="n">Lx</span><span class="o">/</span><span class="n">nx</span>
+    <span class="n">x_vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="n">Lx</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">Lx</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">xy_res</span><span class="p">)</span>
+    <span class="n">y_vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="n">Lx</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">Lx</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">xy_res</span><span class="p">)</span>
+        
+    <span class="c1">## unpack tgz and extract relevant fields </span>
+    <span class="n">opd_cloud</span> <span class="o">=</span> <span class="n">read_2d</span><span class="p">(</span><span class="n">FILE</span><span class="o">=</span><span class="n">input_filename</span><span class="p">,</span><span class="n">vbase</span> <span class="o">=</span> <span class="s1">&#39;opd_drops&#39;</span><span class="p">,</span><span class="n">retain</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">opd_ice</span>   <span class="o">=</span> <span class="n">read_2d</span><span class="p">(</span><span class="n">FILE</span><span class="o">=</span><span class="n">input_filename</span><span class="p">,</span><span class="n">vbase</span> <span class="o">=</span> <span class="s1">&#39;opd_ice&#39;</span><span class="p">,</span><span class="n">retain</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">there</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">alb</span>       <span class="o">=</span> <span class="p">(</span><span class="n">opd_cloud</span> <span class="o">+</span> <span class="n">opd_ice</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">13</span> <span class="o">+</span> <span class="n">opd_cloud</span> <span class="o">+</span> <span class="n">opd_ice</span><span class="p">)</span>
+    <span class="n">opd</span>       <span class="o">=</span> <span class="n">opd_cloud</span> <span class="o">+</span> <span class="n">opd_ice</span>
+    
+    <span class="n">lwp</span>       <span class="o">=</span> <span class="n">read_2d</span><span class="p">(</span><span class="n">FILE</span><span class="o">=</span><span class="n">input_filename</span><span class="p">,</span><span class="n">vbase</span> <span class="o">=</span> <span class="s1">&#39;lwp&#39;</span><span class="p">,</span><span class="n">retain</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">there</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">/</span><span class="mi">1000</span>
+    <span class="n">iwp</span>       <span class="o">=</span> <span class="n">read_2d</span><span class="p">(</span><span class="n">FILE</span><span class="o">=</span><span class="n">input_filename</span><span class="p">,</span><span class="n">vbase</span> <span class="o">=</span> <span class="s1">&#39;iwp&#39;</span><span class="p">,</span><span class="n">retain</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">there</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">/</span><span class="mi">1000</span>
+    <span class="n">pflux</span>     <span class="o">=</span> <span class="n">read_2d</span><span class="p">(</span><span class="n">FILE</span><span class="o">=</span><span class="n">input_filename</span><span class="p">,</span><span class="n">vbase</span> <span class="o">=</span> <span class="s1">&#39;pflux&#39;</span><span class="p">,</span><span class="n">retain</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">there</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">sfcTflx</span>   <span class="o">=</span> <span class="n">read_2d</span><span class="p">(</span><span class="n">FILE</span><span class="o">=</span><span class="n">input_filename</span><span class="p">,</span><span class="n">vbase</span> <span class="o">=</span> <span class="s1">&#39;sfc_T_flx&#39;</span><span class="p">,</span><span class="n">retain</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">there</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">sfcQflx</span>   <span class="o">=</span> <span class="n">read_2d</span><span class="p">(</span><span class="n">FILE</span><span class="o">=</span><span class="n">input_filename</span><span class="p">,</span><span class="n">vbase</span> <span class="o">=</span> <span class="s1">&#39;sfc_qv_flx&#39;</span><span class="p">,</span><span class="n">retain</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">there</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">u10m</span>      <span class="o">=</span> <span class="n">read_2d</span><span class="p">(</span><span class="n">FILE</span><span class="o">=</span><span class="n">input_filename</span><span class="p">,</span><span class="n">vbase</span> <span class="o">=</span> <span class="s1">&#39;u_layer1&#39;</span><span class="p">,</span><span class="n">retain</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">there</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">+</span> <span class="n">dharma_params</span><span class="p">[</span><span class="s1">&#39;translate&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">u</span>
+    <span class="n">v10m</span>      <span class="o">=</span> <span class="n">read_2d</span><span class="p">(</span><span class="n">FILE</span><span class="o">=</span><span class="n">input_filename</span><span class="p">,</span><span class="n">vbase</span> <span class="o">=</span> <span class="s1">&#39;v_layer1&#39;</span><span class="p">,</span><span class="n">retain</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">there</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">+</span> <span class="n">dharma_params</span><span class="p">[</span><span class="s1">&#39;translate&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">v</span>
+    <span class="n">LWup</span>      <span class="o">=</span> <span class="n">read_2d</span><span class="p">(</span><span class="n">FILE</span><span class="o">=</span><span class="n">input_filename</span><span class="p">,</span><span class="n">vbase</span> <span class="o">=</span> <span class="s1">&#39;Fup_toa_10um&#39;</span><span class="p">,</span><span class="n">there</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="c1">## accumulate</span>
+    <span class="k">if</span> <span class="n">counter</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">sfcTflx_col</span> <span class="o">=</span> <span class="n">sfcTflx</span>
+        <span class="n">sfcQflx_col</span> <span class="o">=</span> <span class="n">sfcQflx</span>
+        <span class="n">u10m_col</span>    <span class="o">=</span> <span class="n">u10m</span>
+        <span class="n">v10m_col</span>    <span class="o">=</span> <span class="n">v10m</span>
+        <span class="n">pflux_col</span>   <span class="o">=</span> <span class="n">pflux</span>
+        <span class="n">lwp_col</span>     <span class="o">=</span> <span class="n">lwp</span>
+        <span class="n">iwp_col</span>     <span class="o">=</span> <span class="n">iwp</span>
+        <span class="n">alb_col</span>     <span class="o">=</span> <span class="n">alb</span>
+        <span class="n">opd_col</span>     <span class="o">=</span> <span class="n">opd</span>
+        <span class="n">LWup_col</span>    <span class="o">=</span> <span class="n">LWup</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">sfcTflx_col</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sfcTflx_col</span><span class="p">,</span><span class="n">sfcTflx</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">sfcQflx_col</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sfcQflx_col</span><span class="p">,</span><span class="n">sfcQflx</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">u10m_col</span>    <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">u10m_col</span><span class="p">,</span><span class="n">u10m</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">v10m_col</span>    <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v10m_col</span><span class="p">,</span><span class="n">v10m</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">pflux_col</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pflux_col</span><span class="p">,</span><span class="n">pflux</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">lwp_col</span>     <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lwp_col</span><span class="p">,</span><span class="n">lwp</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">iwp_col</span>     <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">iwp_col</span><span class="p">,</span><span class="n">iwp</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">alb_col</span>     <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">alb_col</span><span class="p">,</span><span class="n">alb</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">opd_col</span>     <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">opd_col</span><span class="p">,</span><span class="n">opd</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">LWup_col</span>    <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">LWup_col</span><span class="p">,</span><span class="n">LWup</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    
+    <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+ 
+    
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>|      0 |       0.0 |      0.0 | 0.0000E+00 | 0.0000E+00 | 0.3255 | 0.0000 |
+
+|   1440 |    3600.0 |      1.0 | 0.9365E-10 | 0.2261E-11 | 0.3247 | 0.6000 |
+
+|   2880 |    7200.0 |      1.0 | 0.7675E-10 | 0.2596E-11 | 0.3142 | 0.6000 |
+
+|   4320 |   10800.0 |      1.0 | 0.2383E-09 | 0.5647E-11 | 0.3884 | 0.6000 |
+
+|   5760 |   14400.0 |      1.0 | 0.3730E-09 | 0.6851E-11 | 0.4737 | 0.6000 |
+
+|   7200 |   18000.0 |      1.0 | 0.3954E-09 | 0.6523E-11 | 0.4688 | 0.6000 |
+
+|   8641 |   21600.0 |      1.0 | 0.1732E-10 | 0.5148E-13 | 0.0032 | 0.1169 |
+
+|  10082 |   25200.0 |      1.1 | 0.6725E-10 | 0.2222E-12 | 0.0166 | 0.3085 |
+
+|  11524 |   28800.0 |      1.1 | 0.1769E-09 | 0.4284E-12 | 0.0291 | 0.6000 |
+
+|  12965 |   32400.0 |      1.1 | 0.1088E-10 | 0.1300E-13 | 0.0007 | 0.0320 |
+
+|  14407 |   36000.0 |      1.1 | 0.2644E-09 | 0.3798E-11 | 0.4016 | 0.6000 |
+
+|  15847 |   39600.0 |      1.1 | 0.3421E-09 | 0.4588E-11 | 0.5107 | 0.6000 |
+
+|  17288 |   43200.0 |      1.1 | 0.9746E-10 | 0.7626E-12 | 0.0770 | 0.6000 |
+
+|  18750 |   46800.0 |      1.1 | 0.2387E-10 | 0.8055E-13 | 0.0093 | 0.2086 |
+
+|  20206 |   50400.0 |      1.1 | 0.1515E-09 | 0.2192E-11 | 0.2928 | 0.6000 |
+
+|  21726 |   54000.0 |      1.2 | 0.6851E-10 | 0.5031E-12 | 0.0643 | 0.6000 |
+
+|  23190 |   57600.0 |      1.1 | 0.1209E-09 | 0.1732E-11 | 0.2268 | 0.6000 |
+
+|  24730 |   61200.0 |      1.2 | 0.1288E-09 | 0.8153E-12 | 0.1399 | 0.6000 |
+
+|  26274 |   64800.0 |      1.2 | 0.1361E-09 | 0.2513E-11 | 0.4344 | 0.6000 |
+
+|  27758 |   68400.0 |      1.2 | 0.1424E-09 | 0.7362E-12 | 0.1639 | 0.6000 |
+
+|  29269 |   72000.0 |      1.2 | 0.6770E-10 | 0.5544E-12 | 0.1148 | 0.6000 |
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## convert narrowband Flux (spectrally integrated) into Brightness Temperatureh = 6.62607015*(10**-34) ## J Hz-1</span>
+<span class="n">h</span> <span class="o">=</span> <span class="mf">6.62607015</span><span class="o">*</span><span class="p">(</span><span class="mi">10</span><span class="o">**-</span><span class="mi">34</span><span class="p">)</span> <span class="c1">## J Hz-1</span>
+<span class="n">k</span> <span class="o">=</span> <span class="mf">1.380649</span><span class="o">*</span><span class="p">(</span><span class="mi">10</span><span class="o">**-</span><span class="mi">23</span><span class="p">)</span>   <span class="c1">## J⋅K−1</span>
+<span class="n">c</span> <span class="o">=</span> <span class="mf">2.99</span><span class="o">*</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">8</span><span class="p">)</span>         <span class="c1">## m s-1</span>
+<span class="n">lamb</span> <span class="o">=</span> <span class="mf">10.5</span><span class="o">*</span><span class="p">(</span><span class="mi">10</span><span class="o">**-</span><span class="mi">6</span><span class="p">)</span> 
+
+
+<span class="n">BT_col</span> <span class="o">=</span> <span class="n">h</span><span class="o">*</span><span class="n">c</span><span class="o">/</span><span class="p">(</span><span class="n">k</span><span class="o">*</span><span class="n">lamb</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">h</span><span class="o">*</span><span class="p">(</span><span class="n">c</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="p">((</span><span class="n">LWup_col</span><span class="o">/</span><span class="mf">2.12</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">6</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">lamb</span><span class="o">**</span><span class="mi">5</span><span class="p">)))))</span>
+    
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="prepare-output-file-in-dephy-format">
+<h2>Prepare output file in DEPHY format<a class="headerlink" href="#prepare-output-file-in-dephy-format" title="Link to this heading">#</a></h2>
+<section id="read-requested-variables-list">
+<h3>Read requested variables list<a class="headerlink" href="#read-requested-variables-list" title="Link to this heading">#</a></h3>
+<p>Variable description, naming, units, and dimensions.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># read list of requested variables</span>
+
+<span class="n">vars_mean_list</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="s1">&#39;output_conversion_2d.xlsx&#39;</span><span class="p">,</span><span class="n">sheet_name</span><span class="o">=</span><span class="s1">&#39;2D&#39;</span><span class="p">)</span>
+
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_rows&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">vars_mean_list</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>standard_name</th>
+      <th>variable_id</th>
+      <th>units</th>
+      <th>dimensions</th>
+      <th>comment (10-min instantaneous)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>time</td>
+      <td>time</td>
+      <td>s</td>
+      <td>–</td>
+      <td>dimension, seconds since 2020-03-12 22:00:00</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>x</td>
+      <td>x</td>
+      <td>m</td>
+      <td>–</td>
+      <td>dimension, grid cell center</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>y</td>
+      <td>y</td>
+      <td>m</td>
+      <td>–</td>
+      <td>dimension, grid cell center</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>surface_upward_sensible_heat_flux</td>
+      <td>hfss</td>
+      <td>W m-2</td>
+      <td>time, x, y</td>
+      <td>–</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>surface_upward_latent_heat_flux</td>
+      <td>hfls</td>
+      <td>W m-2</td>
+      <td>time, x, y</td>
+      <td>–</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>surface_friction_velocity</td>
+      <td>ustar</td>
+      <td>m s-1</td>
+      <td>time, x, y</td>
+      <td>–</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>surface_eastward_wind</td>
+      <td>us</td>
+      <td>m s-1</td>
+      <td>time, x, y</td>
+      <td>at 10-m for comparison with SAR satellite meas...</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>surface_northward_wind</td>
+      <td>vs</td>
+      <td>m s-1</td>
+      <td>time, x, y</td>
+      <td>at 10-m for comparison with SAR satellite meas...</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>precipitation_flux_at_surface</td>
+      <td>pr</td>
+      <td>kg m-2 s-1</td>
+      <td>time, x, y</td>
+      <td>all hydrometeors</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>atmosphere_mass_content_of_liquid_water</td>
+      <td>lwp</td>
+      <td>kg m-2</td>
+      <td>time, x, y</td>
+      <td>all liquid hydrometeors</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>atmosphere_mass_content_of_ice</td>
+      <td>iwp</td>
+      <td>kg m-2</td>
+      <td>time, x, y</td>
+      <td>all ice hydrometeors</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>atmosphere_optical_thickness</td>
+      <td>opt</td>
+      <td>1</td>
+      <td>time, x, y</td>
+      <td>all hydrometeors for comparison with VIIRS; mi...</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>pseudo-albedo</td>
+      <td>alb</td>
+      <td>1</td>
+      <td>time, x, y</td>
+      <td>opt/(opt+13), where opt = all hydrometeor opti...</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>toa_outgoing_longwave_flux_atmospheric_window</td>
+      <td>olr11</td>
+      <td>K</td>
+      <td>time, x, y</td>
+      <td>flux at top-of-atmosphere in window containing...</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">shape</span><span class="p">(</span><span class="n">alb_col</span><span class="p">)</span>
+<span class="n">shape</span><span class="p">(</span><span class="n">lwp_col</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(21, 256, 256)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># create DEPHY output file</span>
+<span class="n">dephy_filename</span> <span class="o">=</span> <span class="n">my_gitdir</span> <span class="o">+</span> <span class="n">my_outfile</span>
+<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">dephy_filename</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">dephy_filename</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The file &#39;</span> <span class="o">+</span> <span class="n">dephy_filename</span> <span class="o">+</span> <span class="s1">&#39; has been deleted successfully&#39;</span><span class="p">)</span>    
+<span class="n">dephy_file</span> <span class="o">=</span> <span class="n">Dataset</span><span class="p">(</span><span class="n">dephy_filename</span><span class="p">,</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">,</span><span class="nb">format</span><span class="o">=</span><span class="s1">&#39;NETCDF3_CLASSIC&#39;</span><span class="p">)</span>
+
+<span class="c1"># create global attributes</span>
+<span class="n">dephy_file</span><span class="o">.</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;DHARMA LES results for COMBLE-MIP case: fixed Nd and Ni&#39;</span>
+<span class="n">dephy_file</span><span class="o">.</span><span class="n">reference</span><span class="o">=</span><span class="s1">&#39;https://github.com/ARM-Development/comble-mip&#39;</span>
+<span class="n">dephy_file</span><span class="o">.</span><span class="n">authors</span><span class="o">=</span><span class="s1">&#39;Florian Tornow (florian.tornow@nasa.gov) and Ann Fridlind (ann.fridlind@nasa.gov)&#39;</span>
+<span class="c1">#dephy_file.source=input_filename</span>
+<span class="n">dephy_file</span><span class="o">.</span><span class="n">version</span><span class="o">=</span><span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">)</span>
+<span class="n">dephy_file</span><span class="o">.</span><span class="n">format_version</span><span class="o">=</span><span class="s1">&#39;DEPHY-derivative&#39;</span>
+<span class="n">dephy_file</span><span class="o">.</span><span class="n">script</span><span class="o">=</span><span class="s1">&#39;convert_DHARMA_LES_output_to_dephy_format_2D.ipynb&#39;</span>
+<span class="n">dephy_file</span><span class="o">.</span><span class="n">startDate</span><span class="o">=</span><span class="n">start_dtime</span>
+<span class="n">dephy_file</span><span class="o">.</span><span class="n">force_geo</span><span class="o">=</span><span class="mi">1</span>
+<span class="n">dephy_file</span><span class="o">.</span><span class="n">surfaceType</span><span class="o">=</span><span class="s1">&#39;ocean (after spin-up)&#39;</span>
+<span class="n">dephy_file</span><span class="o">.</span><span class="n">surfaceForcing</span><span class="o">=</span><span class="s1">&#39;ts (after spin-up)&#39;</span>
+<span class="c1">#dephy_file.lat=str(dharma_params[&#39;Coriolis&#39;].lat) + &#39; deg N&#39;</span>
+<span class="c1">#dephy_file.dx=str(dharma_params[&#39;geometry&#39;].L_x/dharma_params[&#39;geometry&#39;].nx) + &#39; m&#39;</span>
+<span class="c1">#dephy_file.dy=str(dharma_params[&#39;geometry&#39;].L_y/dharma_params[&#39;geometry&#39;].ny) + &#39; m&#39;</span>
+<span class="c1">#dephy_file.dz=&#39;see zf variable&#39;</span>
+<span class="c1">#dephy_file.nx=dharma_params[&#39;geometry&#39;].nx</span>
+<span class="c1">#dephy_file.ny=dharma_params[&#39;geometry&#39;].ny</span>
+<span class="c1">#dephy_file.nz=dharma_params[&#39;geometry&#39;].nz</span>
+
+<span class="c1"># create dimensions</span>
+<span class="n">xvec</span> <span class="o">=</span> <span class="n">dephy_file</span><span class="o">.</span><span class="n">createDimension</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">nx</span><span class="p">)</span>
+<span class="n">xvec</span> <span class="o">=</span> <span class="n">dephy_file</span><span class="o">.</span><span class="n">createVariable</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,))</span>
+<span class="n">xvec</span><span class="o">.</span><span class="n">units</span> <span class="o">=</span> <span class="s1">&#39;m&#39;</span>
+<span class="n">xvec</span><span class="o">.</span><span class="n">long_name</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span>
+<span class="n">xvec</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">x_vec</span>
+
+<span class="n">yvec</span> <span class="o">=</span> <span class="n">dephy_file</span><span class="o">.</span><span class="n">createDimension</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">nx</span><span class="p">)</span>
+<span class="n">yvec</span> <span class="o">=</span> <span class="n">dephy_file</span><span class="o">.</span><span class="n">createVariable</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,))</span>
+<span class="n">yvec</span><span class="o">.</span><span class="n">units</span> <span class="o">=</span> <span class="s1">&#39;m&#39;</span>
+<span class="n">yvec</span><span class="o">.</span><span class="n">long_name</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span>
+<span class="n">yvec</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">y_vec</span>
+
+<span class="n">nt</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">input_filenames</span><span class="p">)</span>
+<span class="n">time</span> <span class="o">=</span> <span class="n">dephy_file</span><span class="o">.</span><span class="n">createDimension</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="n">nt</span><span class="p">)</span>
+<span class="n">time</span> <span class="o">=</span> <span class="n">dephy_file</span><span class="o">.</span><span class="n">createVariable</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">,))</span>
+<span class="n">time</span><span class="o">.</span><span class="n">units</span> <span class="o">=</span> <span class="s1">&#39;seconds since &#39;</span> <span class="o">+</span> <span class="n">dephy_file</span><span class="o">.</span><span class="n">startDate</span>
+<span class="n">time</span><span class="o">.</span><span class="n">long_name</span> <span class="o">=</span> <span class="s1">&#39;time&#39;</span>
+<span class="n">time</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">time_vec</span><span class="p">[:]</span>
+
+<span class="c1"># create and fill variables</span>
+<span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">vars_mean_list</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">3</span><span class="p">:]:</span>
+    <span class="n">std_name</span> <span class="o">=</span> <span class="n">vars_mean_list</span><span class="o">.</span><span class="n">standard_name</span><span class="o">.</span><span class="n">iat</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+    <span class="n">var_name</span> <span class="o">=</span> <span class="n">vars_mean_list</span><span class="p">[</span><span class="s1">&#39;variable_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iat</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+    <span class="c1">#print(var_name)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">var_name</span> <span class="o">==</span> <span class="s1">&#39;hfss&#39;</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">var_name</span> <span class="o">==</span> <span class="s1">&#39;hfls&#39;</span><span class="p">):</span>
+        <span class="k">continue</span>
+    <span class="k">if</span> <span class="n">var_name</span> <span class="o">==</span> <span class="s1">&#39;hfss&#39;</span><span class="p">:</span>
+        <span class="n">mod_field</span> <span class="o">=</span> <span class="n">sfcTflx_col</span>
+    <span class="k">if</span> <span class="n">var_name</span> <span class="o">==</span> <span class="s1">&#39;hfls&#39;</span><span class="p">:</span>
+        <span class="n">mod_field</span> <span class="o">=</span> <span class="n">sfcQflx_col</span>
+    <span class="k">if</span> <span class="n">var_name</span> <span class="o">==</span> <span class="s1">&#39;us&#39;</span><span class="p">:</span>
+        <span class="n">mod_field</span> <span class="o">=</span> <span class="n">u10m_col</span>
+    <span class="k">if</span> <span class="n">var_name</span> <span class="o">==</span> <span class="s1">&#39;vs&#39;</span><span class="p">:</span>
+        <span class="n">mod_field</span> <span class="o">=</span> <span class="n">v10m_col</span>
+    <span class="k">if</span> <span class="n">var_name</span> <span class="o">==</span> <span class="s1">&#39;pr&#39;</span><span class="p">:</span>
+        <span class="n">mod_field</span> <span class="o">=</span> <span class="n">pflux_col</span>
+    <span class="k">if</span> <span class="n">var_name</span> <span class="o">==</span> <span class="s1">&#39;lwp&#39;</span><span class="p">:</span>
+        <span class="n">mod_field</span> <span class="o">=</span> <span class="n">lwp_col</span>
+    <span class="k">if</span> <span class="n">var_name</span> <span class="o">==</span> <span class="s1">&#39;iwp&#39;</span><span class="p">:</span>
+        <span class="n">mod_field</span> <span class="o">=</span> <span class="n">iwp_col</span>
+    <span class="k">if</span> <span class="n">var_name</span> <span class="o">==</span> <span class="s1">&#39;opt&#39;</span><span class="p">:</span>
+        <span class="n">mod_field</span> <span class="o">=</span> <span class="n">opd_col</span>
+    <span class="k">if</span> <span class="n">var_name</span> <span class="o">==</span> <span class="s1">&#39;alb&#39;</span><span class="p">:</span>
+        <span class="n">mod_field</span> <span class="o">=</span> <span class="n">alb_col</span>
+    <span class="k">if</span> <span class="n">var_name</span> <span class="o">==</span> <span class="s1">&#39;olr11&#39;</span><span class="p">:</span>
+        <span class="n">mod_field</span> <span class="o">=</span> <span class="n">BT_col</span><span class="c1">#LWup_col</span>
+    <span class="k">if</span> <span class="n">var_name</span> <span class="o">==</span> <span class="s1">&#39;ustar&#39;</span><span class="p">:</span>
+        <span class="k">continue</span>
+    
+    <span class="k">if</span> <span class="n">vars_mean_list</span><span class="o">.</span><span class="n">dimensions</span><span class="o">.</span><span class="n">iat</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;time, x, y&#39;</span><span class="p">:</span>
+        <span class="n">new_snd</span> <span class="o">=</span> <span class="n">dephy_file</span><span class="o">.</span><span class="n">createVariable</span><span class="p">(</span><span class="n">var_name</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">,</span><span class="s1">&#39;x&#39;</span><span class="p">,</span><span class="s1">&#39;y&#39;</span><span class="p">))</span>
+        <span class="n">new_snd</span><span class="o">.</span><span class="n">units</span> <span class="o">=</span> <span class="n">vars_mean_list</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">iat</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+        <span class="n">new_snd</span><span class="o">.</span><span class="n">long_name</span> <span class="o">=</span> <span class="n">std_name</span>
+        <span class="c1">#if vars_mean_list.model_name.iat[index]!=&#39;missing data&#39;: #and mod_name in dharma_snds: </span>
+        <span class="n">new_snd</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">mod_field</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">dephy_file</span><span class="p">)</span>
+<span class="n">dephy_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;netCDF4._netCDF4.Dataset&#39;&gt;
+root group (NETCDF3_CLASSIC data model, file format NETCDF3):
+    title: DHARMA LES results for COMBLE-MIP case: fixed Nd and Ni
+    reference: https://github.com/ARM-Development/comble-mip
+    authors: Florian Tornow (florian.tornow@nasa.gov) and Ann Fridlind (ann.fridlind@nasa.gov)
+    version: 2025-05-13 11:28:15
+    format_version: DEPHY-derivative
+    script: convert_DHARMA_LES_output_to_dephy_format_2D.ipynb
+    startDate: 2020-03-12 22:00:00.0
+    force_geo: 1
+    surfaceType: ocean (after spin-up)
+    surfaceForcing: ts (after spin-up)
+    dimensions(sizes): x(256), y(256), time(21)
+    variables(dimensions): float64 x(x), float64 y(y), float64 time(time), float64 us(time, x, y), float64 vs(time, x, y), float64 pr(time, x, y), float64 lwp(time, x, y), float64 iwp(time, x, y), float64 opt(time, x, y), float64 alb(time, x, y), float64 olr11(time, x, y)
+    groups: 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dephy_check</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">dephy_filename</span><span class="p">)</span>
+<span class="n">dephy_check</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewBox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewBox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in jupyterlab.
+ *
+ */
+
+:root {
+  --xr-font-color0: var(--jp-content-font-color0, rgba(0, 0, 0, 1));
+  --xr-font-color2: var(--jp-content-font-color2, rgba(0, 0, 0, 0.54));
+  --xr-font-color3: var(--jp-content-font-color3, rgba(0, 0, 0, 0.38));
+  --xr-border-color: var(--jp-border-color2, #e0e0e0);
+  --xr-disabled-color: var(--jp-layout-color3, #bdbdbd);
+  --xr-background-color: var(--jp-layout-color0, white);
+  --xr-background-color-row-even: var(--jp-layout-color1, white);
+  --xr-background-color-row-odd: var(--jp-layout-color2, #eeeeee);
+}
+
+html[theme=dark],
+html[data-theme=dark],
+body[data-theme=dark],
+body.vscode-dark {
+  --xr-font-color0: rgba(255, 255, 255, 1);
+  --xr-font-color2: rgba(255, 255, 255, 0.54);
+  --xr-font-color3: rgba(255, 255, 255, 0.38);
+  --xr-border-color: #1F1F1F;
+  --xr-disabled-color: #515151;
+  --xr-background-color: #111111;
+  --xr-background-color-row-even: #111111;
+  --xr-background-color-row-odd: #313131;
+}
+
+.xr-wrap {
+  display: block !important;
+  min-width: 300px;
+  max-width: 700px;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+  border-bottom: solid 1px var(--xr-border-color);
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-array-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-obj-type {
+  color: var(--xr-font-color2);
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 20px 20px;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item input {
+  display: none;
+}
+
+.xr-section-item input + label {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-item input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.5em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: '►';
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: '▼';
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  display: none;
+  grid-column: 1 / -1;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: '(';
+}
+
+.xr-dim-list:after {
+  content: ')';
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ',';
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  margin-bottom: 0;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-index-preview {
+  grid-column: 2 / 5;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  display: none;
+  background-color: var(--xr-background-color) !important;
+  padding-bottom: 5px !important;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-index-name div,
+.xr-index-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2,
+.xr-no-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.Dataset&gt; Size: 88MB
+Dimensions:  (x: 256, y: 256, time: 21)
+Coordinates:
+  * x        (x) float64 2kB -1.28e+04 -1.27e+04 -1.26e+04 ... 1.26e+04 1.27e+04
+  * y        (y) float64 2kB -1.28e+04 -1.27e+04 -1.26e+04 ... 1.26e+04 1.27e+04
+  * time     (time) datetime64[ns] 168B 2020-03-12T22:00:00 ... 2020-03-13T18...
+Data variables:
+    us       (time, x, y) float64 11MB ...
+    vs       (time, x, y) float64 11MB ...
+    pr       (time, x, y) float64 11MB ...
+    lwp      (time, x, y) float64 11MB ...
+    iwp      (time, x, y) float64 11MB ...
+    opt      (time, x, y) float64 11MB ...
+    alb      (time, x, y) float64 11MB ...
+    olr11    (time, x, y) float64 11MB ...
+Attributes:
+    title:           DHARMA LES results for COMBLE-MIP case: fixed Nd and Ni
+    reference:       https://github.com/ARM-Development/comble-mip
+    authors:         Florian Tornow (florian.tornow@nasa.gov) and Ann Fridlin...
+    version:         2025-05-13 11:28:15
+    format_version:  DEPHY-derivative
+    script:          convert_DHARMA_LES_output_to_dephy_format_2D.ipynb
+    startDate:       2020-03-12 22:00:00.0
+    force_geo:       1
+    surfaceType:     ocean (after spin-up)
+    surfaceForcing:  ts (after spin-up)</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-058121ed-b274-4c76-a0c0-004ef20180b0' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-058121ed-b274-4c76-a0c0-004ef20180b0' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>x</span>: 256</li><li><span class='xr-has-index'>y</span>: 256</li><li><span class='xr-has-index'>time</span>: 21</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-4b7b0a86-a1d7-4cef-a60a-2ed3df20bb11' class='xr-section-summary-in' type='checkbox'  checked><label for='section-4b7b0a86-a1d7-4cef-a60a-2ed3df20bb11' class='xr-section-summary' >Coordinates: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>x</span></div><div class='xr-var-dims'>(x)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-1.28e+04 -1.27e+04 ... 1.27e+04</div><input id='attrs-0f046aba-fcbb-48f0-9e44-0f4ee86f43ff' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-0f046aba-fcbb-48f0-9e44-0f4ee86f43ff' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-2e814d9f-f05d-428e-b53a-4112c4368fd3' class='xr-var-data-in' type='checkbox'><label for='data-2e814d9f-f05d-428e-b53a-4112c4368fd3' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m</dd><dt><span>long_name :</span></dt><dd>x</dd></dl></div><div class='xr-var-data'><pre>array([-12800., -12700., -12600., ...,  12500.,  12600.,  12700.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>y</span></div><div class='xr-var-dims'>(y)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-1.28e+04 -1.27e+04 ... 1.27e+04</div><input id='attrs-d2de5b9a-4c3a-46d1-a82d-f9993be02092' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-d2de5b9a-4c3a-46d1-a82d-f9993be02092' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-eb3fcd33-5f10-439f-92f3-7d9755bfd4a8' class='xr-var-data-in' type='checkbox'><label for='data-eb3fcd33-5f10-439f-92f3-7d9755bfd4a8' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m</dd><dt><span>long_name :</span></dt><dd>y</dd></dl></div><div class='xr-var-data'><pre>array([-12800., -12700., -12600., ...,  12500.,  12600.,  12700.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>datetime64[ns]</div><div class='xr-var-preview xr-preview'>2020-03-12T22:00:00 ... 2020-03-...</div><input id='attrs-e483bf45-f2a4-4d0e-a320-440c0655cdc3' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-e483bf45-f2a4-4d0e-a320-440c0655cdc3' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-0edab40a-990a-4b55-a441-88bd6981824a' class='xr-var-data-in' type='checkbox'><label for='data-0edab40a-990a-4b55-a441-88bd6981824a' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>time</dd></dl></div><div class='xr-var-data'><pre>array([&#x27;2020-03-12T22:00:00.000000000&#x27;, &#x27;2020-03-12T23:00:00.000000000&#x27;,
+       &#x27;2020-03-13T00:00:00.000000000&#x27;, &#x27;2020-03-13T01:00:00.000000000&#x27;,
+       &#x27;2020-03-13T02:00:00.000000000&#x27;, &#x27;2020-03-13T03:00:00.000000000&#x27;,
+       &#x27;2020-03-13T04:00:00.000000000&#x27;, &#x27;2020-03-13T05:00:00.000000000&#x27;,
+       &#x27;2020-03-13T06:00:00.000000000&#x27;, &#x27;2020-03-13T07:00:00.000000000&#x27;,
+       &#x27;2020-03-13T08:00:00.000000000&#x27;, &#x27;2020-03-13T09:00:00.000000000&#x27;,
+       &#x27;2020-03-13T10:00:00.000000000&#x27;, &#x27;2020-03-13T11:00:00.000000000&#x27;,
+       &#x27;2020-03-13T12:00:00.000000000&#x27;, &#x27;2020-03-13T13:00:00.000000000&#x27;,
+       &#x27;2020-03-13T14:00:00.000000000&#x27;, &#x27;2020-03-13T15:00:00.000000000&#x27;,
+       &#x27;2020-03-13T16:00:00.000000000&#x27;, &#x27;2020-03-13T17:00:00.000000000&#x27;,
+       &#x27;2020-03-13T18:00:00.000000000&#x27;], dtype=&#x27;datetime64[ns]&#x27;)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-1ff9d267-57f0-4a3c-a262-ca41f90afff1' class='xr-section-summary-in' type='checkbox'  checked><label for='section-1ff9d267-57f0-4a3c-a262-ca41f90afff1' class='xr-section-summary' >Data variables: <span>(8)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>us</span></div><div class='xr-var-dims'>(time, x, y)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-420f22cd-23ea-4222-ba48-148e8986ac7c' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-420f22cd-23ea-4222-ba48-148e8986ac7c' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-5b096937-1652-4cec-b061-ae6f20e89677' class='xr-var-data-in' type='checkbox'><label for='data-5b096937-1652-4cec-b061-ae6f20e89677' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m s-1</dd><dt><span>long_name :</span></dt><dd>surface_eastward_wind</dd></dl></div><div class='xr-var-data'><pre>[1376256 values with dtype=float64]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>vs</span></div><div class='xr-var-dims'>(time, x, y)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-1298a97b-98c4-4689-a280-8c427b4d7b17' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-1298a97b-98c4-4689-a280-8c427b4d7b17' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-b17c5c1e-e5af-470e-97c2-1376340c81a3' class='xr-var-data-in' type='checkbox'><label for='data-b17c5c1e-e5af-470e-97c2-1376340c81a3' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m s-1</dd><dt><span>long_name :</span></dt><dd>surface_northward_wind</dd></dl></div><div class='xr-var-data'><pre>[1376256 values with dtype=float64]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>pr</span></div><div class='xr-var-dims'>(time, x, y)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-6855eba1-add9-4eae-8540-9f8daf930010' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-6855eba1-add9-4eae-8540-9f8daf930010' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-d5fdd37d-cf00-4464-b8e3-2dfdca3c034d' class='xr-var-data-in' type='checkbox'><label for='data-d5fdd37d-cf00-4464-b8e3-2dfdca3c034d' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>kg m-2 s-1</dd><dt><span>long_name :</span></dt><dd>precipitation_flux_at_surface</dd></dl></div><div class='xr-var-data'><pre>[1376256 values with dtype=float64]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lwp</span></div><div class='xr-var-dims'>(time, x, y)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-b728b458-5bcd-4caa-9b89-9525c8cba20c' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-b728b458-5bcd-4caa-9b89-9525c8cba20c' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-e770738f-2a69-4981-b6ee-17e367f5f9dd' class='xr-var-data-in' type='checkbox'><label for='data-e770738f-2a69-4981-b6ee-17e367f5f9dd' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>kg m-2</dd><dt><span>long_name :</span></dt><dd>atmosphere_mass_content_of_liquid_water</dd></dl></div><div class='xr-var-data'><pre>[1376256 values with dtype=float64]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>iwp</span></div><div class='xr-var-dims'>(time, x, y)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-346e8d48-f56f-43b5-a791-ccd6c093675b' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-346e8d48-f56f-43b5-a791-ccd6c093675b' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-ac46c44e-4afd-4bcf-9e86-3e608374e6df' class='xr-var-data-in' type='checkbox'><label for='data-ac46c44e-4afd-4bcf-9e86-3e608374e6df' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>kg m-2</dd><dt><span>long_name :</span></dt><dd>atmosphere_mass_content_of_ice</dd></dl></div><div class='xr-var-data'><pre>[1376256 values with dtype=float64]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>opt</span></div><div class='xr-var-dims'>(time, x, y)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-f74a99e8-0190-45cd-8532-317f68ba642b' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-f74a99e8-0190-45cd-8532-317f68ba642b' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-5f0c0d64-6d05-416f-9be9-8fd6e042239e' class='xr-var-data-in' type='checkbox'><label for='data-5f0c0d64-6d05-416f-9be9-8fd6e042239e' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>1</dd><dt><span>long_name :</span></dt><dd>atmosphere_optical_thickness</dd></dl></div><div class='xr-var-data'><pre>[1376256 values with dtype=float64]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>alb</span></div><div class='xr-var-dims'>(time, x, y)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-2ce6d3d9-cce6-43b4-9e64-25aae39127c8' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-2ce6d3d9-cce6-43b4-9e64-25aae39127c8' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-927e7886-ffc7-43bc-b359-3e55f67f4bc6' class='xr-var-data-in' type='checkbox'><label for='data-927e7886-ffc7-43bc-b359-3e55f67f4bc6' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>1</dd><dt><span>long_name :</span></dt><dd>pseudo-albedo</dd></dl></div><div class='xr-var-data'><pre>[1376256 values with dtype=float64]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>olr11</span></div><div class='xr-var-dims'>(time, x, y)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-6ec17b99-685f-457e-b5c5-eadfe03c9dd2' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-6ec17b99-685f-457e-b5c5-eadfe03c9dd2' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-30e33927-91a4-41db-9362-d4142bf041cc' class='xr-var-data-in' type='checkbox'><label for='data-30e33927-91a4-41db-9362-d4142bf041cc' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>K</dd><dt><span>long_name :</span></dt><dd>toa_outgoing_longwave_flux_atmospheric_window</dd></dl></div><div class='xr-var-data'><pre>[1376256 values with dtype=float64]</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-d68ecc77-e2bf-4a50-93a8-5d202c644115' class='xr-section-summary-in' type='checkbox'  ><label for='section-d68ecc77-e2bf-4a50-93a8-5d202c644115' class='xr-section-summary' >Indexes: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-index-name'><div>x</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-cc503fc5-25b4-4bba-83b4-8173ee7cbf32' class='xr-index-data-in' type='checkbox'/><label for='index-cc503fc5-25b4-4bba-83b4-8173ee7cbf32' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([-12800.0, -12700.0, -12600.0, -12500.0, -12400.0, -12300.0, -12200.0,
+       -12100.0, -12000.0, -11900.0,
+       ...
+        11800.0,  11900.0,  12000.0,  12100.0,  12200.0,  12300.0,  12400.0,
+        12500.0,  12600.0,  12700.0],
+      dtype=&#x27;float64&#x27;, name=&#x27;x&#x27;, length=256))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>y</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-894f9886-3b1a-473e-b7a3-c44df3d64192' class='xr-index-data-in' type='checkbox'/><label for='index-894f9886-3b1a-473e-b7a3-c44df3d64192' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([-12800.0, -12700.0, -12600.0, -12500.0, -12400.0, -12300.0, -12200.0,
+       -12100.0, -12000.0, -11900.0,
+       ...
+        11800.0,  11900.0,  12000.0,  12100.0,  12200.0,  12300.0,  12400.0,
+        12500.0,  12600.0,  12700.0],
+      dtype=&#x27;float64&#x27;, name=&#x27;y&#x27;, length=256))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>time</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-04560700-0230-4cbe-9618-31761500b19f' class='xr-index-data-in' type='checkbox'/><label for='index-04560700-0230-4cbe-9618-31761500b19f' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(DatetimeIndex([&#x27;2020-03-12 22:00:00&#x27;, &#x27;2020-03-12 23:00:00&#x27;,
+               &#x27;2020-03-13 00:00:00&#x27;, &#x27;2020-03-13 01:00:00&#x27;,
+               &#x27;2020-03-13 02:00:00&#x27;, &#x27;2020-03-13 03:00:00&#x27;,
+               &#x27;2020-03-13 04:00:00&#x27;, &#x27;2020-03-13 05:00:00&#x27;,
+               &#x27;2020-03-13 06:00:00&#x27;, &#x27;2020-03-13 07:00:00&#x27;,
+               &#x27;2020-03-13 08:00:00&#x27;, &#x27;2020-03-13 09:00:00&#x27;,
+               &#x27;2020-03-13 10:00:00&#x27;, &#x27;2020-03-13 11:00:00&#x27;,
+               &#x27;2020-03-13 12:00:00&#x27;, &#x27;2020-03-13 13:00:00&#x27;,
+               &#x27;2020-03-13 14:00:00&#x27;, &#x27;2020-03-13 15:00:00&#x27;,
+               &#x27;2020-03-13 16:00:00&#x27;, &#x27;2020-03-13 17:00:00&#x27;,
+               &#x27;2020-03-13 18:00:00&#x27;],
+              dtype=&#x27;datetime64[ns]&#x27;, name=&#x27;time&#x27;, freq=None))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-5539a7c1-44db-4d97-8329-1832c792db71' class='xr-section-summary-in' type='checkbox'  ><label for='section-5539a7c1-44db-4d97-8329-1832c792db71' class='xr-section-summary' >Attributes: <span>(10)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>title :</span></dt><dd>DHARMA LES results for COMBLE-MIP case: fixed Nd and Ni</dd><dt><span>reference :</span></dt><dd>https://github.com/ARM-Development/comble-mip</dd><dt><span>authors :</span></dt><dd>Florian Tornow (florian.tornow@nasa.gov) and Ann Fridlind (ann.fridlind@nasa.gov)</dd><dt><span>version :</span></dt><dd>2025-05-13 11:28:15</dd><dt><span>format_version :</span></dt><dd>DEPHY-derivative</dd><dt><span>script :</span></dt><dd>convert_DHARMA_LES_output_to_dephy_format_2D.ipynb</dd><dt><span>startDate :</span></dt><dd>2020-03-12 22:00:00.0</dd><dt><span>force_geo :</span></dt><dd>1</dd><dt><span>surfaceType :</span></dt><dd>ocean (after spin-up)</dd><dt><span>surfaceForcing :</span></dt><dd>ts (after spin-up)</dd></dl></div></li></ul></div></div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dephy_filename</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;/home/tflorian/LES-SCM/output_les/dharma/comble_20200313_progNa_2D.nc&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#dephy_check[&#39;olr11&#39;].plot(row=&#39;time&#39;)</span>
+<span class="n">dephy_check</span><span class="p">[</span><span class="s1">&#39;alb&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">,</span><span class="n">col_wrap</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;xarray.plot.facetgrid.FacetGrid at 0x14c5dc1ab710&gt;
+</pre></div>
+</div>
+<img alt="../_images/ecdb398ea718384c07c69ff2a937b7b416ccd5d9540d45e4634ae2cee2f8e8ba.png" src="../_images/ecdb398ea718384c07c69ff2a937b7b416ccd5d9540d45e4634ae2cee2f8e8ba.png" />
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "conda-base-py"
+        },
+        kernelOptions: {
+            name: "conda-base-py",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'conda-base-py'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-libraries">Import libraries</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#specify-directory-locations">Specify directory locations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#read-dharma-data">Read DHARMA data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#locate-2d-files">Locate 2D files</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#read-2d-files">Read 2D files</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prepare-output-file-in-dephy-format">Prepare output file in DEPHY format</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#read-requested-variables-list">Read requested variables list</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By GISS Cloud Group
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
