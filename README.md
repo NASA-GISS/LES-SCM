@@ -5,3 +5,7 @@ Library of large-eddy simulation (LES) and single-column model (SCM) case studie
 ```{attention}
 If you are interested in running LES/SCM cases using your native LES and/or SCM code, then please contact us.
 ```
+
+
+> [!IMPORTANT]
+> LES and SCM output will soon be provided through the [NASA Discovery Datashare Portal](https://portal.nccs.nasa.gov/datashare/giss-les-scm/)
