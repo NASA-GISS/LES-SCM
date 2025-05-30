@@ -45,13 +45,23 @@ def load_ceres(case='20200313',t_filter = 1.,PATH='../data_files/'):
     ## PATH........directory
     
     if case == '20200313':
-        file = 'viirs_2020-03-13_satdat.csv'
+        file = 'ceres_2020-03-13_satdat.csv'
         t_off = 18.
+    if case == '20200409':
+        file = 'ceres_2020-04-09_satdat.csv'
+        t_off = 18.
+    if case == '20200425':
+        file = 'ceres_2020-04-25_satdat.csv'
+        t_off = 12.
+    if case == '20200512':
+        file = 'ceres_2020-05-12_satdat.csv'
+        t_off = 13.
     
     data = pd.read_csv(PATH + file)
     
     ## exclude greater temperoral offsets
     data = data.loc[abs(data['tdiff']) <= t_filter]
+    #print(data)
     
     ## exclude bispectral retrievals under high SZA
     data['time'] = (data['time.rel'] + t_off)*3600.
@@ -59,6 +69,9 @@ def load_ceres(case='20200313',t_filter = 1.,PATH='../data_files/'):
     #data['zi'] = data['swflx']
     #data['zi.25'] = data['swflx.25']
     #data['zi.75'] = data['swflx.75']
+    data['rlut'] = data['lwflx']
+    data['rlut.25'] = data['lwflx.25']
+    data['rlut.75'] = data['lwflx.75']
     
     #data['cod'] = data['cod.me']
     data.index = data['time']
@@ -78,12 +91,20 @@ def load_calipso(case='20200313',t_filter = 1.,PATH='../data_files/'):
     if case == '20200313':
         file = 'caliop_2020-03-13_satdat.csv'
         t_off = 18.
+    if case == '20200409':
+        file = 'caliop_2020-04-09_satdat.csv'
+        t_off = 12.
+    if case == '20200512':
+        file = 'caliop_2020-05-12_satdat.csv'
+        t_off = 13.
     
     data = pd.read_csv(PATH + file)
     
     ## exclude greater temperoral offsets
     data = data.loc[abs(data['tdiff']) <= t_filter]
         
+    data.loc[data['cth'] > 8,['ctt','cth']] = np.nan 
+    
     data['time'] = (data['time.rel'] + t_off)*3600.
     data['zi'] = data['cth']*1000
     data['zi.25'] = data['cth.25']*1000
@@ -177,30 +198,47 @@ def load_viirs(case='20200313',t_filter = 1.,sza_filter = 80.,PATH='../data_file
     if case == '20200313':
         file = 'viirs_2020-03-13_satdat.csv'
         t_off = 18.
+    if case == '20200409':
+        file = 'viirs_2020-04-09_satdat.csv'
+        t_off = 18.
+    if case == '20200425':
+        file = 'viirs_2020-04-25_satdat.csv'
+        t_off = 12.
+    if case == '20200512':
+        file = 'viirs_2020-05-12_satdat.csv'
+        t_off = 13.  
     
     data = pd.read_csv(PATH + file)
     
     ## exclude greater temperoral offsets
     data = data.loc[abs(data['tdiff']) <= t_filter]
+
+    ## exclude highly uncertain data points
+    data = data.loc[data['cod'].notna()]
     
     ## exclude bispectral retrievals under high SZA
-    data.loc[data['sza'] > sza_filter,['cod','cod.25','cod.75']] = np.nan 
+    data.loc[data['sza'] > sza_filter,['cod','cod.25','cod.75','cc','cc.25','cc.75']] = np.nan 
     
     ## exclude values obtained during high-cloud influence
-    data.loc[(data['time.rel'] + t_off) < 3,['ctt','cth']] = np.nan 
+    #data.loc[(data['time.rel'] + t_off) < 3,['ctt','cth']] = np.nan 
+    data.loc[data['cth'] > 8000,['ctt','cth']] = np.nan 
     
     data['time'] = (data['time.rel'] + t_off)*3600.
     data['zi'] = data['cth']
     data['zi.25'] = data['cth.25']
     data['zi.75'] = data['cth.75']
-    data['ctt'] = data['ctt'] - 273.15
-    data['ctt.25'] = data['ctt.25'] - 273.15
-    data['ctt.75'] = data['ctt.75'] - 273.15
+    if min(data['ctt']) > 200:
+        data['ctt'] = data['ctt'] - 273.15
+        data['ctt.25'] = data['ctt.25'] - 273.15
+        data['ctt.75'] = data['ctt.75'] - 273.15
     
     #data['cod'] = data['cod.me']
     data['od'] = data['cod']
     data['od.25'] = data['cod.25']
     data['od.75'] = data['cod.75']
+    data['clt'] = data['cc']
+    data['clt.25'] = data['cc.025']
+    data['clt.75'] = data['cc.975']
     data.index = data['time']
      
     data['class'] = data['sat']
@@ -217,17 +255,32 @@ def load_modis(case='20200313',t_filter = 1.,sza_filter = 80.,PATH='../data_file
     if case == '20200313':
         file = 'modis_2020-03-13_satdat.csv'
         t_off = 18.
+    if case == '20200409':
+        file = 'modis_2020-04-09_satdat.csv'
+        t_off = 18.
+    if case == '20200425':
+        file = 'modis_2020-04-25_satdat.csv'
+        t_off = 12.
+    if case == '20200512':
+        file = 'modis_2020-05-12_satdat.csv'
+        t_off = 13.
     
     data = pd.read_csv(PATH + file)
     
     ## exclude greater temperoral offsets
     data = data.loc[abs(data['tdiff']) <= t_filter]
     
-    ## exclude bispectral retrievals under high SZA
-    data.loc[data['sza'] > sza_filter,['cod','cod.25','cod.75']] = np.nan 
+    ## exclude highly uncertain data points
+    #data = data.loc[data['cod'].notna()]
+    data.loc[data['cod'].isna(),['cod','cod.25','cod.75','cc','cc.25','cc.75']] = np.nan 
+
     
+    ## exclude bispectral retrievals under high SZA
+    data.loc[data['sza'] > sza_filter,['cod','cod.25','cod.75','cc','cc.25','cc.75']] = np.nan 
+
     ## exclude values obtained during high-cloud influence
-    data.loc[(data['time.rel'] + t_off) < 3,['ctt','cth']] = np.nan 
+    #data.loc[(data['time.rel'] + t_off) < 3,['ctt','cth']] = np.nan 
+    data.loc[data['cth'] > 8000,['ctt','cth']] = np.nan 
     
     data['time'] = (data['time.rel'] + t_off)*3600.
     data['zi'] = data['cth']
@@ -238,6 +291,9 @@ def load_modis(case='20200313',t_filter = 1.,sza_filter = 80.,PATH='../data_file
     data['od'] = data['cod']
     data['od.25'] = data['cod.25']
     data['od.75'] = data['cod.75']
+    data['clt'] = data['cc']
+    data['clt.25'] = data['cc.025']
+    data['clt.75'] = data['cc.975']
      
     data['class'] = data['sat']
     return data
@@ -253,6 +309,15 @@ def load_maclwp(case='20200313',t_filter = 1.,PATH='../data_files/'):
     if case == '20200313':
         file = 'maclwp_2020-03-13_satdat3.csv'
         t_off = 18.
+    if case == '20200409':
+        file = 'maclwp_2020-04-09_satdat.csv'
+        t_off = 18.
+    if case == '20200425':
+        file = 'maclwp_2020-04-25_satdat.csv'
+        t_off = 12.
+    if case == '20200512':
+        file = 'maclwp_2020-05-12_satdat.csv'
+        t_off = 13.
     
     data = pd.read_csv(PATH + file)
     data = data.loc[abs(data['tdiff']) <= t_filter]
@@ -285,6 +350,15 @@ def load_kazrkollias(case='20200313',t_filter = 1.,PATH='../data_files/',aux_dat
     if case == '20200313':
         file = 'kazr-kollias_2020-03-13_dat2.csv'
         t_off = 18.
+    if case == '20200409':
+        file = 'kazr-kollias_2020-04-09_dat2.csv'
+        t_off = 18.
+    if case == '20200425':
+        file = 'kazr-kollias_2020-04-25_dat2.csv'
+        t_off = 12.
+    if case == '20200512':
+        file = 'kazr-kollias_2020-05-12_dat2.csv'
+        t_off = 13.
     
     data = pd.read_csv(PATH + file)
     
@@ -323,6 +397,15 @@ def load_kazrclough(case='20200313',t_filter = 1.,PATH='../data_files/'):
     if case == '20200313':
         file = 'kazr-clough_2020-03-13_dat2.csv'
         t_off = 18.
+    if case == '20200409':
+        file = 'kazr-clough_2020-04-09_dat2.csv'
+        t_off = 18.
+    if case == '20200425':
+        file = 'kazr-clough_2020-04-25_dat2.csv'
+        t_off = 12.
+    if case == '20200512':
+        file = 'kazr-clough_2020-05-12_dat2.csv'
+        t_off = 13.
     
     data = pd.read_csv(PATH + file)
     
@@ -346,6 +429,15 @@ def load_radflux(case='20200313',t_filter = 1.,PATH='../data_files/'):
     if case == '20200313':
         file = 'radflux_2020-03-13_dat2.csv'
         t_off = 18.
+    if case == '20200409':
+        file = 'radflux_2020-04-09_dat2.csv'
+        t_off = 18.
+    if case == '20200425':
+        file = 'radflux_2020-04-25_dat2.csv'
+        t_off = 12.
+    if case == '20200512':
+        file = 'radflux_2020-05-12_dat2.csv'
+        t_off = 13.
     
     data = pd.read_csv(PATH + file)
     
@@ -364,6 +456,15 @@ def load_aeri(case='20200313',t_filter = 1.,PATH='../data_files/'):
     if case == '20200313':
         file = 'aeri_2020-03-13_dat.csv'
         time_near = 18.
+    if case == '20200409':
+        file = 'aeri_2020-04-09_dat.csv'
+        time_near = 18.
+    if case == '20200425':
+        file = 'aeri_2020-04-25_dat.csv'
+        time_near = 12.
+    if case == '20200512':
+        file = 'aeri_2020-05-12_dat.csv'
+        time_near = 13.
     
     data = pd.read_csv(PATH + file)
     data = data.loc[abs(data['time.abs']/3600 - time_near) <= t_filter]
@@ -448,7 +549,15 @@ def load_rs(case='20200313',t_filter = 1.,PATH='../data_files/'):
 
     if case == '20200313':
         time_near = 18.
-    
+    if case == '20200409':
+        time_near = 18.
+    if case == '20200425':
+        time_near = 12.
+    if case == '20200507':
+        time_near = 12.
+    if case == '20200512':
+        time_near = 13.
+        
     NCFILES = list(direc.rglob('anx*cdf'))
     
     var_vec_1d = ['alt','pres','u_wind','v_wind','tdry','dp','rh']
@@ -780,7 +889,7 @@ def load_sims_2d_slow(path,var_vec_2d,t_shift = 0,keyword='',subfolder=''):
     return df_col2
     
 
-def load_sims(path,var_vec_1d,var_vec_2d,t_shift = 0,keyword='',make_gray = 0,drop_t0=True,diag_zi_ctt=False,diag_qltot=False,diag_qitot=False,QTHRES=1.0e-10,subfolder='',ignore='placeholder'):
+def load_sims(path,var_vec_1d,var_vec_2d,t_shift = 0,keyword='',make_gray = 0,drop_t0=True,diag_zi_ctt=False,diag_qltot=False,diag_qitot=False,QTHRES=1.0e-5,subfolder='',ignore='placeholder'):
     
     ## load ERA5 data along trajectory
     ## __input__

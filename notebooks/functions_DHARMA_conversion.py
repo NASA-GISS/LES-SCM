@@ -22,6 +22,12 @@ def DHARMA_convert(path,output_filename,verbose=False):
     ######################################################
     if '20200313' in output_filename:
         start_dtime = '2020-03-12 22:00:00.0'
+    if '20200409' in output_filename:
+        start_dtime = '2020-04-08 11:00:00.0'
+    if '20200425' in output_filename:
+        start_dtime = '2020-04-24 15:00:00.0'
+    if '20200512' in output_filename:
+        start_dtime = '2020-05-11 08:00:00.0'
     
     # FixN with no ice test
     my_readdir = path
