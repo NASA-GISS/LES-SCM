@@ -20,7 +20,7 @@ jobs:
         os: [ubuntu-latest]
         python-version: [3.9]
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     # Install dependencies
     - name: Set up Python ${{ matrix.python-version }}
@@ -36,8 +36,9 @@ jobs:
         jupyter-book build .
     # Deploy the book's HTML to gh-pages branch
     - name: Deploy
-      uses: peaceiris/actions-gh-pages@v3.6.1
+      uses: peaceiris/actions-gh-pages@v4
       with:
         github_token: ${{ secrets.TOKENS }}
         publish_branch: gh-pages
-        publish_dir: ./public
+        publish_dir: _build/html
+        force_orphan: true
