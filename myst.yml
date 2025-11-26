@@ -19,7 +19,7 @@ project:
       - smartquotes
       - substitution
   html:
-    use_repository_button: true
+    use_repository_button: true 
     comments:
       hypothesis: true
   repository:
