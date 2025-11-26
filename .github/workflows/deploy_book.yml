@@ -32,7 +32,6 @@ jobs:
         pip install -r doc-requirements.txt
     # Build the book
     - name: Build the book
-      uses: jupyter-book/jupyter-book@v1
       run: |
         jupyter-book build .
     # Deploy the book's HTML to gh-pages branch
