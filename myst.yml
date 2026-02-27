@@ -1,0 +1,63 @@
+version: 1
+project:
+  title: NASA-GISS LES-SCM Overview
+  author: GISS Cloud Group
+  logo: 123025312.png
+  markdown: kramdown
+  execute:
+    execute_notebooks: "off"
+  parse:
+    myst_enable_extensions:
+      - html_image
+      - amsmath
+      - colon_fence
+      - deflist
+      - dollarmath
+      - html_admonition
+      - html_image
+      - replacements
+      - smartquotes
+      - substitution
+  html:
+    use_repository_button: true 
+    comments:
+      hypothesis: true
+  repository:
+    url: https://github.com/NASA-GISS/LES-SCM  # Online location of your book
+    path_to_book: 
+    branch: main  # Which branch of the repository should be used when creating links (optional)
+format: jb-book
+root: README
+parts:
+- caption: Project Information
+  chapters:
+    - file: notebooks/cases_list.ipynb
+    - file: case_description
+      sections:
+        - file: notebooks/case_descr_20200313.ipynb
+        - file: notebooks/case_descr_20200409.ipynb
+        - file: notebooks/case_descr_20200425.ipynb
+        - file: notebooks/case_descr_20200507.ipynb
+        - file: notebooks/case_descr_20200512.ipynb
+        - file: notebooks/case_descr_20200301.ipynb
+        - file: notebooks/case_descr_20210203.ipynb
+        - file: notebooks/case_descr_20220111.ipynb
+        - file: notebooks/case_descr_20220118.ipynb
+        - file: notebooks/case_descr_20220313.ipynb
+        - file: notebooks/case_descr_20220329.ipynb
+        
+- caption: Simulations
+  chapters:
+    - file: obs_constrained_les_scm
+      sections:
+        - file: notebooks/case_plotting_20200313.ipynb
+        - file: notebooks/case_plotting_20200409.ipynb
+        - file: notebooks/case_plotting_20200425.ipynb
+        - file: notebooks/case_plotting_20200407.ipynb
+        - file: notebooks/case_plotting_20200512.ipynb
+        - file: notebooks/case_plotting_20200301.ipynb
+        - file: notebooks/case_plotting_20210203.ipynb
+        - file: notebooks/case_plotting_20220111.ipynb
+        - file: notebooks/case_plotting_20220118.ipynb
+        - file: notebooks/case_plotting_20220313.ipynb
+        - file: notebooks/case_plotting_20220329.ipynb
