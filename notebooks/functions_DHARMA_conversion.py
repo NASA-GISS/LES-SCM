@@ -79,7 +79,8 @@ def DHARMA_convert(path,output_filename,verbose=False,time_resample='600s'):
 
     # check for number of aerosol modes
     if do_progNa:
-        num_progNa = bool(dharma_params['Cond'].aer_modes)
+        #num_progNa = bool(dharma_params['Cond'].aer_modes)
+        num_progNa = dharma_params['Cond'].aer_modes
         if verbose:
             print('num_progNa = ',num_progNa)
     
