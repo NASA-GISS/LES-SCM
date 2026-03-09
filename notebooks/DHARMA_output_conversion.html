@@ -520,6 +520,18 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## for Yijia, also process multi-modal aerosol runs</span>
+<span class="n">case_list</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;comble_progna_DeMott71_kk&#39;</span><span class="p">:</span><span class="s1">&#39;comble_20200313_progNa_3modes&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;comble_20200409_case_early_wmerra075_DeMott71_kk&#39;</span><span class="p">:</span><span class="s1">&#39;comble_20200409_progNa_3modes&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;comble_20200425_case_nosub_DeMott71_kk&#39;</span><span class="p">:</span><span class="s1">&#39;comble_20200425_progNa_3modes&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;comble_20200507_case_early_DeMott1_nosub_kk_hm&#39;</span><span class="p">:</span><span class="s1">&#39;comble_20200507_progNa_3modes&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;comble_20200512_case_ni10_somesub_DeMott71_kk&#39;</span><span class="p">:</span><span class="s1">&#39;comble_20200512_progNa_3modes&#39;</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">case_list</span><span class="p">:</span>
     <span class="c1">## </span>
     <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -528,74 +540,34 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>activate_20220329_case_Wmerra_DeMott71_KK_z0test_monomodal2_noice/
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>comble_progna_DeMott71_kk
 --------------------
-2022-03-29 12:00:00.0
-[&#39;0-36h&#39;]
-/home/tflorian/nobackup/dharma_run/cao_2018/activate_20220329_case_Wmerra_DeMott71_KK_z0test_monomodal2_noice//0-36h/dharma.cdf
-do_ice =  False
-do_progNa =  True
-num_progNa =  True
-/home/tflorian/nobackup/dharma_run/cao_2018/activate_20220329_case_Wmerra_DeMott71_KK_z0test_monomodal2_noice//0-36h/dharma.soundings.cdf
-/home/tflorian/nobackup/dharma_run/cao_2018/activate_20220329_case_Wmerra_DeMott71_KK_z0test_monomodal2_noice//0-36h/dharma.scalars.cdf
-&lt;class &#39;netCDF4._netCDF4.Dataset&#39;&gt;
-root group (NETCDF3_CLASSIC data model, file format NETCDF3):
-    title: DHARMA LES results
-    reference: https://nasa-giss.github.io/LES-SCM/
-    authors: Ann Fridlind (ann.fridlind@nasa.gov) and Florian Tornow (florian.tornow@nasa.gov)
-    source: /home/tflorian/nobackup/dharma_run/cao_2018/activate_20220329_case_Wmerra_DeMott71_KK_z0test_monomodal2_noice//0-36h/dharma.scalars.cdf
-    version: 2025-07-25 14:19:41
-    format_version: DEPHY SCM format version 1.6
-    script: convert_DHARMA_LES_output_to_dephy_format.ipynb
-    startDate: 2022-03-29 12:00:00.0
-    force_geo: 1
-    surfaceType: ocean (after spin-up)
-    surfaceForcing: ts (after spin-up)
-    lat: 36.0 deg N
-    dx: 300.0 m
-    dy: 300.0 m
-    dz: see zf variable
-    nx: 72
-    ny: 72
-    nz: 200
-    dimensions(sizes): zf(200), ze(200), time(217)
-    variables(dimensions): float64 zf(zf), float64 ze(ze), float64 time(time), float64 ps(time), float64 ts(time), float64 ustar(time), float64 z0(time), float64 z0h(time), float64 z0q(time), float64 hfss(time), float64 hfls(time), float64 ol(time), float64 lwpc(time), float64 lwpr(time), float64 iwp(time), float64 clt(time), float64 od(time), float64 odlc(time), float64 nqc(time), float64 pr(time), float64 pri(time), float64 rlut(time), float64 rlds(time), float64 rlus(time), float64 ssaf(time), float64 pa(time, zf), float64 ua(time, zf), float64 va(time, zf), float64 rhoa(time, zf), float64 ta(time, zf), float64 qv(time, zf), float64 hur(time, zf), float64 huri(time, zf), float64 theta(time, zf), float64 tke_res(time, zf), float64 tke_sgs(time, zf), float64 qlc(time, zf), float64 qlr(time, zf), float64 qic(time, zf), float64 qis(time, zf), float64 qig(time, zf), float64 nlc(time, zf), float64 nlr(time, zf), float64 nic(time, zf), float64 nis(time, zf), float64 nig(time, zf), float64 na1(time, zf), float64 na2(time, zf), float64 na3(time, zf), float64 nlcic(time, zf), float64 niic(time, zf), float64 eps(time, zf), float64 uw(time, zf), float64 vw(time, zf), float64 w2(time, zf), float64 wth(time, zf), float64 vf_thli(time, zf), float64 wqv(time, zf), float64 vf_qt(time, zf), float64 flc(time, zf), float64 prf(time, zf), float64 prfi(time, zf), float64 rld(time, zf), float64 rlu(time, zf), float64 dth_rad(time, zf), float64 dth_micro(time, zf), float64 dth_turb(time, zf), float64 dq_micro(time, zf), float64 dq_turb(time, zf), float64 dna_micro_warm(time, zf), float64 dna_micro_cold(time, zf), float64 dna_turb(time, zf), float64 dni_het(time, zf), float64 dni_sip(time, zf), float64 dni_hom(time, zf)
-    groups: 
+2020-03-12 22:00:00.0
+The file /discover/nobackup/tflorian/LES-SCM/output_les/dharma/comble_20200313_progNa_3modes.nc has been deleted successfully
 --------------------
  
-activate_20220329_case_Wmerra_DeMott71_KK_z0test_monomodal2/
+comble_20200409_case_early_wmerra075_DeMott71_kk
 --------------------
-2022-03-29 12:00:00.0
-[&#39;0-36h&#39;]
-/home/tflorian/nobackup/dharma_run/cao_2018/activate_20220329_case_Wmerra_DeMott71_KK_z0test_monomodal2//0-36h/dharma.cdf
-do_ice =  True
-do_progNa =  True
-num_progNa =  True
-/home/tflorian/nobackup/dharma_run/cao_2018/activate_20220329_case_Wmerra_DeMott71_KK_z0test_monomodal2//0-36h/dharma.soundings.cdf
-/home/tflorian/nobackup/dharma_run/cao_2018/activate_20220329_case_Wmerra_DeMott71_KK_z0test_monomodal2_noice_diagNa//0-36h/dharma.scalars.cdf
-&lt;class &#39;netCDF4._netCDF4.Dataset&#39;&gt;
-root group (NETCDF3_CLASSIC data model, file format NETCDF3):
-    title: DHARMA LES results
-    reference: https://nasa-giss.github.io/LES-SCM/
-    authors: Ann Fridlind (ann.fridlind@nasa.gov) and Florian Tornow (florian.tornow@nasa.gov)
-    source: /home/tflorian/nobackup/dharma_run/cao_2018/activate_20220329_case_Wmerra_DeMott71_KK_z0test_monomodal2_noice_diagNa//0-36h/dharma.scalars.cdf
-    version: 2025-07-25 14:22:45
-    format_version: DEPHY SCM format version 1.6
-    script: convert_DHARMA_LES_output_to_dephy_format.ipynb
-    startDate: 2022-03-29 12:00:00.0
-    force_geo: 1
-    surfaceType: ocean (after spin-up)
-    surfaceForcing: ts (after spin-up)
-    lat: 36.0 deg N
-    dx: 300.0 m
-    dy: 300.0 m
-    dz: see zf variable
-    nx: 72
-    ny: 72
-    nz: 200
-    dimensions(sizes): zf(200), ze(200), time(217)
-    variables(dimensions): float64 zf(zf), float64 ze(ze), float64 time(time), float64 ps(time), float64 ts(time), float64 ustar(time), float64 z0(time), float64 z0h(time), float64 z0q(time), float64 hfss(time), float64 hfls(time), float64 ol(time), float64 lwpc(time), float64 lwpr(time), float64 iwp(time), float64 clt(time), float64 od(time), float64 odlc(time), float64 nqc(time), float64 pr(time), float64 pri(time), float64 rlut(time), float64 rlds(time), float64 rlus(time), float64 ssaf(time), float64 pa(time, zf), float64 ua(time, zf), float64 va(time, zf), float64 rhoa(time, zf), float64 ta(time, zf), float64 qv(time, zf), float64 hur(time, zf), float64 huri(time, zf), float64 theta(time, zf), float64 tke_res(time, zf), float64 tke_sgs(time, zf), float64 qlc(time, zf), float64 qlr(time, zf), float64 qic(time, zf), float64 qis(time, zf), float64 qig(time, zf), float64 nlc(time, zf), float64 nlr(time, zf), float64 nic(time, zf), float64 nis(time, zf), float64 nig(time, zf), float64 na1(time, zf), float64 na2(time, zf), float64 na3(time, zf), float64 nlcic(time, zf), float64 niic(time, zf), float64 eps(time, zf), float64 uw(time, zf), float64 vw(time, zf), float64 w2(time, zf), float64 wth(time, zf), float64 vf_thli(time, zf), float64 wqv(time, zf), float64 vf_qt(time, zf), float64 flc(time, zf), float64 prf(time, zf), float64 prfi(time, zf), float64 rld(time, zf), float64 rlu(time, zf), float64 dth_rad(time, zf), float64 dth_micro(time, zf), float64 dth_turb(time, zf), float64 dq_micro(time, zf), float64 dq_turb(time, zf), float64 dna_micro_warm(time, zf), float64 dna_micro_cold(time, zf), float64 dna_turb(time, zf), float64 dni_het(time, zf), float64 dni_sip(time, zf), float64 dni_hom(time, zf)
-    groups: 
+2020-04-08 11:00:00.0
+The file /discover/nobackup/tflorian/LES-SCM/output_les/dharma/comble_20200409_progNa_3modes.nc has been deleted successfully
+--------------------
+ 
+comble_20200425_case_nosub_DeMott71_kk
+--------------------
+2020-04-24 15:00:00.0
+The file /discover/nobackup/tflorian/LES-SCM/output_les/dharma/comble_20200425_progNa_3modes.nc has been deleted successfully
+--------------------
+ 
+comble_20200507_case_early_DeMott1_nosub_kk_hm
+--------------------
+2020-05-06 08:00:00.0
+The file /discover/nobackup/tflorian/LES-SCM/output_les/dharma/comble_20200507_progNa_3modes.nc has been deleted successfully
+--------------------
+ 
+comble_20200512_case_ni10_somesub_DeMott71_kk
+--------------------
+2020-05-11 08:00:00.0
+The file /discover/nobackup/tflorian/LES-SCM/output_les/dharma/comble_20200512_progNa_3modes.nc has been deleted successfully
 --------------------
  
 </pre></div>
