@@ -8,11 +8,12 @@ import netCDF4
 import datetime as dt
 from netCDF4 import Dataset
 import sys
+from pathlib import Path
 
 ## Specify directory locations
 
 
-def ModelE_convert(path,output_filename,verbose=False):
+def ModelE_convert(path,output_filename,ppe_i=0,ppe=False,verbose=False):
 
     ## translated from COMBLE notebook written by Ann Fridlind (https://github.com/ARM-Development/comble-   mip/blob/main/notebooks/conversion_output/convert_DHARMA_LES_output_to_dephy_format.ipynb)
 
@@ -46,16 +47,25 @@ def ModelE_convert(path,output_filename,verbose=False):
     
     # specify simulation
     my_input_suffix = path             #*.nc
-    my_output_suffix = output_filename #*.nc
-
-    my_input_dir = '/discover/nobackup/tflorian/modelE_runs/'
+    if ppe:
+        my_output_suffix = output_filename + '_t' + str(ppe_i) + 'ml'#*.nc
+    else:
+        my_output_suffix = output_filename 
+    
+    if ppe:
+        my_input_dir = '/discover/nobackup/tflorian/modelE_SCM_ppe/'
+    else:
+        my_input_dir = '/discover/nobackup/tflorian/modelE_runs/'
 
     # specify Github scratch directory where processed model output will be committed
     my_output_filename = my_output_suffix
     my_gitdir = '/discover/nobackup/tflorian/LES-SCM/output_scm/modele/'
     
     # Read single file containing all output data
-    input_filename = my_input_dir + path + '/allsteps.allmerge' + my_input_suffix + '.nc'
+    if ppe:                      
+        input_filename = str(list(Path(my_input_dir + path + '/out/').rglob('*'+str(ppe_i)+'*'))[0])
+    else:        
+        input_filename = my_input_dir + path + '/allsteps.allmerge' + my_input_suffix + '.nc'
     print(input_filename)
     modele_data = xr.open_dataset(input_filename)
 
